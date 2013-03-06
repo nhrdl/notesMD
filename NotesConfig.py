@@ -1,6 +1,6 @@
 from peewee import SqliteDatabase
-from basket import Basket
-from note import Note
+from model import Basket, Note
+
 class NotesConfig:
     database = SqliteDatabase(None)
 

@@ -39,7 +39,8 @@ class DBUtil:
     def createTables():
         Basket.create_table()
         Note.create_table()
-        
+        Tag.create_table()
+        NoteTag.create_table()
 
 class TesterBase(unittest.TestCase):
     def setUp(self):
