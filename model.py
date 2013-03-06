@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from peewee import DateField, TextField, Model, SqliteDatabase, ForeignKeyField
+from peewee import DateField, TextField, Model, SqliteDatabase, ForeignKeyField,\
+    CharField
 import unittest
 import datetime
 
@@ -15,20 +16,27 @@ class ModelBase(Model):
 
         
 class Basket(ModelBase):
-    basketName = TextField()
-    pass
+    basketName = CharField()
 
+class Note(ModelBase):
+    basket = ForeignKeyField(Basket)
+    text = TextField()
+
+class Tag(ModelBase):
+    tag = CharField()
+    
+
+class NoteTag(ModelBase):
+    tag = ForeignKeyField(Tag)
+    note = ForeignKeyField(Note)
+    
+        
 class DBUtil:
     @staticmethod
     def createTables():
         Basket.create_table()
         Note.create_table()
         
-        
-class Note(ModelBase):
-    basket = ForeignKeyField(Basket)
-    text = TextField()
-    pass
 
 class TesterBase(unittest.TestCase):
     def setUp(self):
