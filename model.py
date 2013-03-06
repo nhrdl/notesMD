@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 from peewee import DateField, TextField, Model, SqliteDatabase, ForeignKeyField,\
     CharField
 import unittest
@@ -11,6 +12,8 @@ class NotesConfig:
 
 class ModelBase(Model):
     creationDate = DateField()
+    modificationDate = DateField()
+    
     class Meta:
         database = NotesConfig.database; 
 
@@ -24,12 +27,12 @@ class Note(ModelBase):
 
 class Tag(ModelBase):
     tag = CharField()
-    
+
 
 class NoteTag(ModelBase):
     tag = ForeignKeyField(Tag)
     note = ForeignKeyField(Note)
-    
+
         
 class DBUtil:
     @staticmethod
@@ -50,12 +53,14 @@ class TesterBase(unittest.TestCase):
         basket =  Basket()
         basket.basketName = "Hello world"
         basket.creationDate = datetime.date.today()
+        basket.modificationDate = basket.creationDate
         basket.save()
         print basket.id
         
         basket =  Basket()
         basket.basketName = "Hello world"
         basket.creationDate = datetime.date.today()
+        basket.modificationDate = basket.creationDate
         basket.save()
         print basket.id
      
@@ -63,12 +68,14 @@ class TesterBase(unittest.TestCase):
         basket =  Basket()
         basket.basketName = "Hello world"
         basket.creationDate = datetime.date.today()
+        basket.modificationDate = basket.creationDate
         basket.save()
         
         note = Note()
         note.text = "Hello note!!"
         note.basket = basket
         note.creationDate = datetime.date.today()
+        note.modificationDate = note.creationDate
         note.save()
         print "Note saved", note.id
         
