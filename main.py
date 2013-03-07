@@ -6,6 +6,7 @@ import gi
 from gi.repository import WebKit 
 from gi.repository import Gtk 
 from gi.repository import GLib
+from model import NotesConfig
 
 
 class NotesWeb:
@@ -72,6 +73,7 @@ def idleHookFunction(app):
     return True
 
 app = NotesApp()
+NotesConfig.database.init("/tmp/notes.db")
 
 idle_index=GLib.idle_add(idleHookFunction, app)
 
