@@ -42,12 +42,22 @@ CherryPyStart().start()
 
     
 exitLoop = False
+
+def idleHookFunction(app):
+    global exitLoop
+   
+    if (exitLoop):
+        cherrypy.engine.stop()
+        Gtk.main_quit()
+    
+    return True
     
 class NotesApp:
     def exit(self, arg, a1):
         global exitLoop
         exitLoop = True
-        
+        GLib.idle_add(idleHookFunction, app)    
+            
     def save(self, webview):
         pass
     
@@ -81,21 +91,13 @@ class NotesApp:
         self.window = win
 
 
-def idleHookFunction(app):
-    global exitLoop
-   
-    if (exitLoop):
-        cherrypy.engine.stop()
-        Gtk.main_quit()
-    
-    return True
 
 
 
 NotesConfig.database.init("/tmp/notes.db")
 
 app = NotesApp()
-GLib.idle_add(idleHookFunction, app)
+
         
 Gtk.main()
 
