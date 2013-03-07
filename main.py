@@ -13,7 +13,7 @@ class NotesWeb:
     def index(self):
         return "Hello world"
     
-    index.exposed = True
+   # index.exposed = True
 
     
 exitLoop = False
@@ -30,7 +30,7 @@ class NotesApp:
     def __init__(self):
        
         toolbar = Gtk.Toolbar()
-        #toolbar.set_style(Gtk.ToobarStyle.GTTOOLBAR_ICONS)
+        # toolbar.set_style(Gtk.ToobarStyle.GTTOOLBAR_ICONS)
         savetb = Gtk.ToolButton(Gtk.STOCK_SAVE)
         savetb.connect("clicked", self.save)
         sep = Gtk.SeparatorToolItem()
@@ -60,8 +60,16 @@ idle_index = 0
 
 def idleHookFunction(app):
     global idle_index
+    conf = {
+        '/':
+        {'tools.staticdir.dir': os.path.dirname(os.path.abspath(__file__)) + "/web",
+         'tools.staticdir.index' : 'index.html',
+         'tools.staticdir.on' : True
+         },
+          
+      }
     if (idle_index != 0):
-        cherrypy.tree.mount(NotesWeb(), "/")
+        cherrypy.tree.mount(NotesWeb(), "/", config=conf)
         cherrypy.engine.start()
         app.view.open("http://localhost:8080/")
         idle_index = 0
@@ -75,7 +83,7 @@ def idleHookFunction(app):
 app = NotesApp()
 NotesConfig.database.init("/tmp/notes.db")
 
-idle_index=GLib.idle_add(idleHookFunction, app)
+idle_index = GLib.idle_add(idleHookFunction, app)
 
         
 Gtk.main()
