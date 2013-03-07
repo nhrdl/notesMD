@@ -15,13 +15,14 @@ class NotesWeb:
     index.exposed = True
 
     
+exitLoop = False
     
 class NotesApp:
     def exit(self, arg, a1):
-        cherrypy.engine.stop()
-        Gtk.main_quit()
-        raise SystemExit
-    
+        global exitLoop
+        exitLoop = True
+        self.window.hide()
+        
     def save(self, webview):
         pass
     
@@ -51,7 +52,7 @@ class NotesApp:
         win.connect("delete-event", self.exit)
         
         win.maximize()
-   
+        self.window = win
 
 
 idle_index = 0
@@ -64,6 +65,10 @@ def idleHookFunction(app):
         app.view.open("http://localhost:8080/")
         idle_index = 0
 
+    if (exitLoop):
+        cherrypy.engine.stop()
+        Gtk.main_quit()
+    
     return True
 
 app = NotesApp()
