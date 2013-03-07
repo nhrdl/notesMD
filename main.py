@@ -2,15 +2,19 @@
 
 import cherrypy
 import os
+import threading
 import gi
 from gi.repository import WebKit 
 from gi.repository import Gtk 
-from gi.repository import GLib
+from gi.repository import GLib, GObject
 from model import NotesConfig
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
+
 lookup = TemplateLookup(directories=['web'])
+GObject.threads_init()
+
 
 class NotesWeb:
     def index(self):
@@ -19,6 +23,23 @@ class NotesWeb:
     
     index.exposed = True
 
+
+class CherryPyStart(threading.Thread):
+    def run(self):
+        conf = {
+        '/':
+        {'tools.staticdir.dir': os.path.dirname(os.path.abspath(__file__)) + "/web",
+         # 'tools.staticdir.index' : 'index.html',
+         'tools.staticdir.on' : True
+         },
+          
+        }
+        cherrypy.tree.mount(NotesWeb(), "/", config=conf)
+        cherrypy.engine.start()
+        
+         
+CherryPyStart().start()
+
     
 exitLoop = False
     
@@ -26,7 +47,6 @@ class NotesApp:
     def exit(self, arg, a1):
         global exitLoop
         exitLoop = True
-        self.window.hide()
         
     def save(self, webview):
         pass
@@ -55,40 +75,27 @@ class NotesApp:
 
         win.show_all() 
         win.connect("delete-event", self.exit)
+        self.view.open("http://localhost:8080/")
         
         win.maximize()
         self.window = win
 
 
-idle_index = 0
-
 def idleHookFunction(app):
-    global idle_index
-    conf = {
-        '/':
-        {'tools.staticdir.dir': os.path.dirname(os.path.abspath(__file__)) + "/web",
-         #'tools.staticdir.index' : 'index.html',
-         'tools.staticdir.on' : True
-         },
-          
-      }
-    if (idle_index != 0):
-        cherrypy.tree.mount(NotesWeb(), "/", config=conf)
-        cherrypy.engine.start()
-        app.view.open("http://localhost:8080/")
-        idle_index = 0
-
+    global exitLoop
+   
     if (exitLoop):
         cherrypy.engine.stop()
         Gtk.main_quit()
     
     return True
 
-app = NotesApp()
+
+
 NotesConfig.database.init("/tmp/notes.db")
 
-idle_index = GLib.idle_add(idleHookFunction, app)
-
+app = NotesApp()
+GLib.idle_add(idleHookFunction, app)
         
 Gtk.main()
 
