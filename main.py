@@ -8,12 +8,16 @@ from gi.repository import Gtk
 from gi.repository import GLib
 from model import NotesConfig
 
+from mako.template import Template
+from mako.lookup import TemplateLookup
+lookup = TemplateLookup(directories=['web'])
 
 class NotesWeb:
     def index(self):
-        return "Hello world"
+        tmpl = lookup.get_template("index.html")
+        return tmpl.render(salutation="Hello", target="World")
     
-   # index.exposed = True
+    index.exposed = True
 
     
 exitLoop = False
@@ -63,7 +67,7 @@ def idleHookFunction(app):
     conf = {
         '/':
         {'tools.staticdir.dir': os.path.dirname(os.path.abspath(__file__)) + "/web",
-         'tools.staticdir.index' : 'index.html',
+         #'tools.staticdir.index' : 'index.html',
          'tools.staticdir.on' : True
          },
           
