@@ -61,6 +61,16 @@ class NotesApp:
     def save(self, webview):
         pass
     
+    def displayContextMenu(self, view, menu, keyboard, data):
+        print "Context menu", menu.get_children()
+        for item in menu.get_children():
+            print "Item", item.get_label()
+            x = item.get_label()
+            y = "_Back"
+            if (y == item.get_label()):
+                menu.remove(item)
+        
+        
     def __init__(self):
        
         toolbar = Gtk.Toolbar()
@@ -89,7 +99,7 @@ class NotesApp:
         
         win.maximize()
         self.window = win
-
+        self.view.connect("context-menu", self.displayContextMenu)
 
 
 
