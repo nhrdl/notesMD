@@ -17,11 +17,11 @@ GObject.threads_init()
 
 
 class NotesWeb:
+    @cherrypy.expose
     def index(self):
         tmpl = lookup.get_template("index.html")
         return tmpl.render(salutation="Hello", target="World")
     
-    index.exposed = True
 
 
 class CherryPyStart(threading.Thread):
