@@ -5,9 +5,32 @@
 <script src="scripts/jquery-ui-1.10.1.custom.js"></script>
 <link href="css/ui-lightness/jquery-ui-1.10.1.custom.css"
 	rel="stylesheet">
+
+<script type="text/javascript">
+	$(function() {
+		$("#d1").draggable(
+				{
+					drag : function(event, ui) {
+						$("#d1").css("opacity", "0.6"); // Semi-transparent when dragging
+					},
+					stop : function(event, ui) {
+						saveCoords(ui.position.left,
+								ui.position.top, ui.helper.attr('id'));
+						$("#d1").css("opacity", "1.0"); // Full opacity when stopped
+					},
+					cursor : "move"
+				});
+	});
+	
+function saveCoords(left, top, id)
+{
+	alert("Saving " + left + ":" + top + ":"+id);
+	}
+</script>
 </head>
 <body>
-	<div class="ui-widget">
+	<div id="d1" class="ui-widget"
+		style="border: 1px solid black; width: 30%; postition:absolute; left: 735px; top:202px;">
 		<p>
 			This page demonstrates the widgets you downloaded using the theme you
 			selected in the download builder. We've included and linked to
