@@ -12,10 +12,11 @@ blockquote {
 
 .wmd-panel
 {
-	margin-left: 25%;
-	margin-right: 25%;
-	width: 50%;
-	min-width: 500px;
+	/*margin-left: 25%;*/
+	/*margin-right: 25%;*/
+	width: 48%;
+	padding-right:4px;
+	/*min-width: 500px;*/
 }
 
 .wmd-button-bar 
@@ -34,7 +35,7 @@ blockquote {
 
 .wmd-preview 
 { 
-	background-color: #c0e0ff; 
+	/*background-color: #c0e0ff;*/ 
 }
 
 .wmd-button-row 

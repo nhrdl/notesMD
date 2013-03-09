@@ -1,14 +1,21 @@
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="css/markdown.css" />
-    <script type="text/javascript" src="scripts/Markdown.Converter.js"></script>
-    <script type="text/javascript" src="scripts/Markdown.Sanitizer.js"></script>
-    <script type="text/javascript" src="scripts/Markdown.Editor.js"></script>
-  </head>
-  <body>
-    <div class="wmd-panel">
-            <div id="wmd-button-bar"></div>
-            <textarea class="wmd-input" id="wmd-input">
+<head>
+<link rel="stylesheet" type="text/css" href="css/markdown.css" />
+<script type="text/javascript" src="scripts/Markdown.Converter.js"></script>
+<script type="text/javascript" src="scripts/Markdown.Sanitizer.js"></script>
+<script type="text/javascript" src="scripts/Markdown.Editor.js"></script>
+</head>
+<body>
+	<table style="width: 100%;">
+		<tr style="width: 100%;">
+			<td width="50%">
+				<div id="wmd-button-bar"></div>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td valign="top"><textarea class="wmd-input" style="vertical-align: top;"id="wmd-input">
 This is the *first* editor.
 ------------------------------
 
@@ -25,24 +32,28 @@ Do it like this:
 2. ???
 3. Profit!
 """
-</textarea>
-        </div>
-        <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
-  </body>
-    <script type="text/javascript">
-    (function () {
-                var converter1 = Markdown.getSanitizingConverter();
-                
-                converter1.hooks.chain("preBlockGamut", function (text, rbg) {
-                    return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
-                        return "<blockquote>" + rbg(inner) + "</blockquote>\n";
-                    });
-                });
-                
-                var editor1 = new Markdown.Editor(converter1);
-                
-                editor1.run();
-})();  
-    </script>
-  
+</textarea></td>
+			<td style="border:1px solid black;width:50%;"><div id="wmd-preview" class="wmd-panel wmd-preview" style="width:100%;"></div></td>
+		</tr>
+	</table>
+	<div class="wmd-panel" style="float: left"></div>
+
+</body>
+<script type="text/javascript">
+	(function() {
+		var converter1 = Markdown.getSanitizingConverter();
+
+		converter1.hooks.chain("preBlockGamut", function(text, rbg) {
+			return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm,
+					function(whole, inner) {
+						return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+					});
+		});
+
+		var editor1 = new Markdown.Editor(converter1);
+
+		editor1.run();
+	})();
+</script>
+
 </html>

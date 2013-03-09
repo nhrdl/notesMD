@@ -79,9 +79,19 @@ class NotesApp:
         box.show_all()
         dialog.maximize()
         response = dialog.run()
+        if (Gtk.ResponseType.OK == response):
+            element = self.getTextElement(view)
+            text = element.get_value()
+        
+            
         dialog.destroy()
         pass
     
+    def getTextElement(self, frame):
+        doc = frame.get_dom_document()
+        element = doc.get_element_by_id("wmd-input")
+        return element
+
     def displayContextMenu(self, view, menu, keyboard, data):
         print "Context menu", menu.get_children()
         for item in menu.get_children():
