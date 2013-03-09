@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+.note {
+padding-bottom: 4px;
+margin: 4px;
+width:30%;
+border: 1px solid black;
+}
+</style>
 <script src="scripts/jquery-1.9.1.js"></script>
 <script src="scripts/jquery-ui-1.10.1.custom.js"></script>
 <script src="scripts/Markdown.Converter.js"></script>
@@ -48,25 +56,8 @@ function saveCoords(left, top, id)
 </script>
 </head>
 <body>
-	<div id="d1" class="ui-widget"
-		style="border: 1px solid black; width: 30%; postition:absolute; left: 735px; top:202px; display:none;">
-		<p>
-			This page demonstrates the widgets you downloaded using the theme you
-			selected in the download builder. We've included and linked to
-			minified versions of <a href="js/jquery-1.9.1.js">jQuery</a>, your
-			personalized copy of <a href="js/jquery-ui-1.10.1.custom.min.js">jQuery
-				UI (js/jquery-ui-1.10.1.custom.min.js)</a>, and <a
-				href="css/ui-lightness/jquery-ui-1.10.1.custom.min.css">css/ui-lightness/jquery-ui-1.10.1.custom.min.css</a>
-			which imports the entire jQuery UI CSS Framework. You can choose to
-			link a subset of the CSS Framework depending on your needs.
-		</p>
-		<p>You've downloaded components and a theme that are compatible
-			with jQuery 1.6+. Please make sure you are using jQuery 1.6+ in your
-			production environment.</p>
-	</div>
-	
 	% for note in notes:
-	<div id="note_${note.id}" class="note" style="border: 1px solid black; width: 30%;">${note.text}</div>
+	<div id="note_${note.id}" class="note" style="">${note.text}</div>
 	%endfor
 </body>
 </html>
