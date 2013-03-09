@@ -18,9 +18,12 @@ border: 1px solid black;
 <script type="text/javascript">
 	$(function() {
 		var converter = new Markdown.Converter();
-	
+	//	$(this).html ( converter.makeHtml($(this).html())); 
+		$(".noteContent").each(function() {
+			$(this).html ( converter.makeHtml($(this).html()));
+		});
 		$(".note").each(function() {
-			$(this).html ( converter.makeHtml($(this).html())); 
+			
 			$(this).draggable(
 					{
 						drag : function(event, ui) {
@@ -33,20 +36,9 @@ border: 1px solid black;
 						},
 						cursor : "move"
 					});
+			$(this).accordion({collapsible:true});
 		});
 		
-		$("#d1").draggable(
-				{
-					drag : function(event, ui) {
-						$("#d1").css("opacity", "0.6"); // Semi-transparent when dragging
-					},
-					stop : function(event, ui) {
-						saveCoords(ui.position.left,
-								ui.position.top, ui.helper.attr('id'));
-						$("#d1").css("opacity", "1.0"); // Full opacity when stopped
-					},
-					cursor : "move"
-				});
 	});
 	
 function saveCoords(left, top, id)
@@ -57,7 +49,10 @@ function saveCoords(left, top, id)
 </head>
 <body>
 	% for note in notes:
-	<div id="note_${note.id}" class="note" style="">${note.text}</div>
+	<div id="note_${note.id}" class="note" > 
+	<h3>Header</h3>
+	<div id="note_content_${note.id}" class="noteContent">${note.text}</div>
+	</div>
 	%endfor
 </body>
 </html>
