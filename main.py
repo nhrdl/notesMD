@@ -102,6 +102,11 @@ class NotesApp:
                 menu.remove(item)
         
         
+    def alert(self, view, frame, message):
+        print message
+        return True
+        
+        
     def __init__(self):
        
         toolbar = Gtk.Toolbar()
@@ -131,7 +136,7 @@ class NotesApp:
         win.maximize()
         self.window = win
         self.view.connect("context-menu", self.displayContextMenu)
-
+        self.view.connect("script-alert", self.alert)
 
 
 
