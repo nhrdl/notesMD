@@ -62,7 +62,7 @@ class NotesApp:
         exitLoop = True
         GLib.idle_add(idleHookFunction, app)    
             
-    def save(self, webview):
+    def newNote(self, webview):
         pass
     
     def displayContextMenu(self, view, menu, keyboard, data):
@@ -79,11 +79,11 @@ class NotesApp:
        
         toolbar = Gtk.Toolbar()
         # toolbar.set_style(Gtk.ToobarStyle.GTTOOLBAR_ICONS)
-        savetb = Gtk.ToolButton(Gtk.STOCK_SAVE)
-        savetb.connect("clicked", self.save)
+        newNoteTb = Gtk.ToolButton(Gtk.STOCK_NEW)
+        newNoteTb.connect("clicked", self.newNote)
         sep = Gtk.SeparatorToolItem()
         quittb = Gtk.ToolButton(Gtk.STOCK_QUIT)
-        toolbar.insert(savetb, 0)
+        toolbar.insert(newNoteTb, 0)
         toolbar.insert(sep, 1)
         toolbar.insert(quittb, 2)
         
