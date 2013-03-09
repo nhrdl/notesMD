@@ -1,124 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>iNettuts - Welcome!</title>
-        
-        <link href="inettuts.css" rel="stylesheet" type="text/css" />
-<!--        <link rel="stylesheet" type="text/css" href="markdown.css" /> -->
+<script src="scripts/jquery-1.9.1.js"></script>
+<script src="scripts/jquery-ui-1.10.1.custom.js"></script>
+<link href="css/ui-lightness/jquery-ui-1.10.1.custom.css"
+	rel="stylesheet">
 </head>
 <body>
-    
-    <div id="head">
-        <h1>iNettuts</h1>
-    </div>
-
-    <div id="columns">
-        
-        <ul id="column1" class="column">
-            <li class="widget color-green" id="intro">
-                <div class="widget-head">
-                    <h3>Introduction Widget</h3>
-                </div>
-                <div class="widget-content">
-                  <div id="m1">
-                  markdown
-========
-
-This is a simple viewer that loads the **[markdown][1]** file passed on the command line. The code is based on demo application of markdown code provided at [PageDown][2]
-
-
-This is tested on ubuntu 12.10, but should work where GTK3 and webkit is available. Consult your platform documentation about how to install the dependencies if required.
-
-
-  [1]: https://en.wikipedia.org/wiki/Markdown
-  [2]: https://code.google.com/p/pagedown/wiki/PageDown
-
-License: Apache2.0. PageDown library has it's own license which is MIT license.
-</div>
-                </div>
-            </li>
-            <li class="widget color-red">  
-                <div class="widget-head">
-                    <h3>Widget title</h3>
-                </div>
-                <div class="widget-content">
-                                    <div id="m2" contenteditable="true">
-                  markdown
-========
-
-This is a simple viewer that loads the **[markdown][1]** file passed on the command line. The code is based on demo application of markdown code provided at [PageDown][2]
-
-
-This is tested on ubuntu 12.10, but should work where GTK3 and webkit is available. Consult your platform documentation about how to install the dependencies if required.
-
-
-  [1]: https://en.wikipedia.org/wiki/Markdown
-  [2]: https://code.google.com/p/pagedown/wiki/PageDown
-
-License: Apache2.0. PageDown library has it's own license which is MIT license.
-</div>
-
-                </div>
-            </li>
-        </ul>
-
-        <ul id="column2" class="column">
-            <li class="widget color-blue">  
-                <div class="widget-head">
-                    <h3>Widget title</h3>
-                </div>
-                <div class="widget-content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.</p>
-                </div>
-            </li>
-            <li class="widget color-yellow">  
-                <div class="widget-head">
-                    <h3>Widget title</h3>
-                </div>
-                <div class="widget-content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.</p>
-                </div>
-            </li>
-        </ul>
-        
-        <ul id="column3" class="column">
-            <li class="widget color-orange">  
-                <div class="widget-head">
-                    <h3>Widget title</h3>
-                </div>
-                <div class="widget-content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.</p>
-                </div>
-            </li>
-            <li class="widget color-white">  
-                <div class="widget-head">
-                    <h3>Widget title</h3>
-                </div>
-                <div class="widget-content">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam magna sem, fringilla in, commodo a, rutrum ut, massa. Donec id nibh eu dui auctor tempor. Morbi laoreet eleifend dolor. Suspendisse pede odio, accumsan vitae, auctor non, suscipit at, ipsum. Cras varius sapien vel lectus.</p>
-                </div>
-            </li>
-            
-        </ul>
-        
-    </div>
-    
-    
-    <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
-    <script type="text/javascript" src="jquery-ui-personalized-1.6rc2.min.js"></script>
-    <script type="text/javascript" src="inettuts.js"></script>
-    <script type="text/javascript" src="./Markdown.Converter.js"></script>
-
-    <script type="text/javascript">
-      $().ready(function() {
-      var converter = new Markdown.Converter();
-      elem = document.getElementById("m1");
-      elem.innerHTML = converter.makeHtml(elem.innerHTML);
-
-      elem = document.getElementById("m2");
-      elem.innerHTML = converter.makeHtml(elem.innerHTML);
-      });
-    </script>
+	<div class="ui-widget">
+		<p>
+			This page demonstrates the widgets you downloaded using the theme you
+			selected in the download builder. We've included and linked to
+			minified versions of <a href="js/jquery-1.9.1.js">jQuery</a>, your
+			personalized copy of <a href="js/jquery-ui-1.10.1.custom.min.js">jQuery
+				UI (js/jquery-ui-1.10.1.custom.min.js)</a>, and <a
+				href="css/ui-lightness/jquery-ui-1.10.1.custom.min.css">css/ui-lightness/jquery-ui-1.10.1.custom.min.css</a>
+			which imports the entire jQuery UI CSS Framework. You can choose to
+			link a subset of the CSS Framework depending on your needs.
+		</p>
+		<p>You've downloaded components and a theme that are compatible
+			with jQuery 1.6+. Please make sure you are using jQuery 1.6+ in your
+			production environment.</p>
+	</div>
 </body>
 </html>
