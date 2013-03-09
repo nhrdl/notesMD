@@ -6,7 +6,7 @@ import unittest
 import datetime
 
 class NotesConfig:
-    database = SqliteDatabase(None)
+    database = SqliteDatabase(None, threadlocals=True)
 
    
 
