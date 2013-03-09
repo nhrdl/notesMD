@@ -63,6 +63,20 @@ class NotesApp:
         GLib.idle_add(idleHookFunction, app)    
             
     def newNote(self, webview):
+        dialog = Gtk.Dialog(title="Dialog", parent=None, flags=0, 
+                            buttons=(Gtk.STOCK_OK, Gtk.ResponseType.OK, Gtk.STOCK_CANCEL, 
+                                     Gtk.ResponseType.CANCEL))
+        box = dialog.get_content_area()
+        view = WebKit.WebView()
+        sw = Gtk.ScrolledWindow()
+        sw.add(view)
+        box.pack_start(sw, True, True, 5)
+        view.open("https://www.finovera.com")
+        box.add(sw)
+        box.show_all()
+        dialog.maximize()
+        response = dialog.run()
+        dialog.destroy()
         pass
     
     def displayContextMenu(self, view, menu, keyboard, data):
