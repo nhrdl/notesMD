@@ -7,8 +7,11 @@ import datetime
 
 class NotesConfig:
     database = SqliteDatabase(None, threadlocals=True)
-
-   
+    port = "8080"
+    
+    @staticmethod
+    def formUrl(path):
+        return "http://localhost:"+ NotesConfig.port +"/" +path
 
 class ModelBase(Model):
     creationDate = DateField()

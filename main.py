@@ -26,7 +26,10 @@ class NotesWeb:
         tmpl = lookup.get_template("index.html")
         return tmpl.render(notes= notes)
     
-
+    @cherrypy.expose
+    def edit(self, id):
+        template = lookup.get_template("editor.html")
+        return template.render()
 
 class CherryPyStart(threading.Thread):
     def run(self):
@@ -71,7 +74,7 @@ class NotesApp:
         sw = Gtk.ScrolledWindow()
         sw.add(view)
         box.pack_start(sw, True, True, 5)
-        view.open("https://www.finovera.com")
+        view.open(NotesConfig.formUrl("edit?id=-1"))
         box.add(sw)
         box.show_all()
         dialog.maximize()
@@ -113,7 +116,7 @@ class NotesApp:
 
         win.show_all() 
         win.connect("delete-event", self.exit)
-        self.view.open("http://localhost:8080/")
+        self.view.open(NotesConfig.formUrl( ""))
         
         win.maximize()
         self.window = win
