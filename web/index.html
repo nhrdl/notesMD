@@ -2,11 +2,15 @@
 <html>
 <head>
 <style type="text/css">
-.note {
-padding-bottom: 4px;
+.container {
+padding: 4px;
 margin: 4px;
 width:30%;
+float:left;
+}
+.note {
 border: 1px solid black;
+
 }
 </style>
 <script src="scripts/jquery-1.9.1.js"></script>
@@ -24,27 +28,29 @@ border: 1px solid black;
 		});
 		$(".note").each(function() {
 			
-			$(this).draggable(
-					{
-						drag : function(event, ui) {
-							$("#d1").css("opacity", "0.6"); // Semi-transparent when dragging
-						},
-						stop : function(event, ui) {
-							saveCoords(ui.position.left,
-									ui.position.top, ui.helper.attr('id'));
-							$("#d1").css("opacity", "1.0"); // Full opacity when stopped
-						},
-						cursor : "move"
-					});
+			
 			$(this).accordion({collapsible:true});
 		});
-		
+		$(".container").each(function(){
+		$(this).draggable(
+				{
+					drag : function(event, ui) {
+						$(this).css("opacity", "0.6"); // Semi-transparent when dragging
+					},
+					stop : function(event, ui) {
+						saveCoords(ui.position.left,
+								ui.position.top, ui.helper.attr('id'));
+						$(this).css("opacity", "1.0"); // Full opacity when stopped
+					},
+					cursor : "move"
+				});
+		});
 	});
 	
 function saveCoords(left, top, id)
 {
 	alert("Saving " + left + ":" + top + ":"+id);
-	}
+}
 </script>
 </head>
 <body>
@@ -52,9 +58,11 @@ function saveCoords(left, top, id)
 <button onclick="javascript:alert('Hello there');">click me</button>
 </div>
 	% for note in notes:
+	<div id="container_${note.id}" class="container">
 	<div id="note_${note.id}" class="note" > 
 	<h3>Header</h3>
 	<div id="note_content_${note.id}" class="noteContent">${note.text}</div>
+	</div>
 	</div>
 	%endfor
 </body>
