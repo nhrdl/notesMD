@@ -4,6 +4,7 @@ from peewee import DateField, TextField, Model, SqliteDatabase, ForeignKeyField,
     CharField
 import unittest
 import datetime
+import StringIO
 
 class NotesConfig:
     database = SqliteDatabase(None, threadlocals=True)
@@ -27,6 +28,10 @@ class Basket(ModelBase):
 class Note(ModelBase):
     basket = ForeignKeyField(Basket)
     text = TextField()
+    
+    def getHeader(self):
+        buf = StringIO.StringIO(self.text)
+        return buf.readline()
 
 class Tag(ModelBase):
     tag = CharField()

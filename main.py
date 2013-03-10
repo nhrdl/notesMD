@@ -9,7 +9,6 @@ from gi.repository import Gtk
 from gi.repository import GLib, GObject
 from model import NotesConfig, Note
 
-from mako.template import Template
 from mako.lookup import TemplateLookup
 
 lookup = TemplateLookup(directories=['web'])
@@ -17,10 +16,12 @@ GObject.threads_init()
 
 
 class NotesWeb:
+    
     @cherrypy.expose
     def index(self):
         notes = Note.select()
         for note in notes:
+            note.header = note.getHeader()
             print note.text
             
         tmpl = lookup.get_template("index.html")
