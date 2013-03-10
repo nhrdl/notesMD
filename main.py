@@ -7,7 +7,7 @@ import gi
 from gi.repository import WebKit 
 from gi.repository import Gtk 
 from gi.repository import GLib, GObject
-from model import NotesConfig, Note
+from model import NotesConfig, Note, Basket
 
 from mako.lookup import TemplateLookup
 
@@ -33,9 +33,11 @@ class NotesWeb:
         for note in notes:
             note.header = note.getHeader()
             print note.text
+        
+        baskets = Basket.select()
             
         tmpl = lookup.get_template("container.html")
-        return tmpl.render(notes= notes)
+        return tmpl.render(notes= notes, baskets=baskets)
     
     @cherrypy.expose
     def edit(self, id):
