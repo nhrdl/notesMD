@@ -122,10 +122,9 @@
 
 	<div>
 		% for note in notes:
-		<div id="container_${note.id}"
-			class="containerPlus draggable resizable {buttons:'m,i,c', skin:'default', width:'400',title:'Test' }" style="width:30%;position:relative;float:left">
+		<div id="container_${note.id}" title="${note.header}"
+			class="containerPlus draggable resizable {buttons:'m,i,c', skin:'default', width:'400'}" style="width:30%;position:relative;float:left">
 			<div id="note_${note.id}" class="note">
-			${note.header}
 				<div id="note_content_${note.id}" class="noteContent">${note.text}</div>
 			</div>
 		</div>
