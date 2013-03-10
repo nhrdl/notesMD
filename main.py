@@ -62,7 +62,12 @@ def idleHookFunction(app):
     
 class NotesApp:
     def exit(self, arg, a1):
+        self.quit(arg)
+        
+    def quit(self, doesNotMatter):
         global exitLoop
+        
+        self.window.hide()
         exitLoop = True
         GLib.idle_add(idleHookFunction, app)    
             
@@ -116,6 +121,7 @@ class NotesApp:
         newNoteTb.connect("clicked", self.newNote)
         sep = Gtk.SeparatorToolItem()
         quittb = Gtk.ToolButton(Gtk.STOCK_QUIT)
+        quittb.connect("clicked", self.quit)
         toolbar.insert(newNoteTb, 0)
         toolbar.insert(sep, 1)
         toolbar.insert(quittb, 2)
