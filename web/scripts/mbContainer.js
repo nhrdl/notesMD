@@ -300,13 +300,13 @@
 			container.find(".ne:first").append("<div class='buttonBar'></div>");
 			for (var i in btn){
 				if (btn[i]=="c"){
-					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/close.png' class='close'/>");
+					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/close.png' class='close' title='Delete note'/>");
 					container.find(".close:first").on("click",function(){
 						container.mb_close();
 					});
 				}
 				if (btn[i]=="m"){
-					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/min.png' class='collapsedContainer'/>");
+					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/min.png' class='collapsedContainer' title='Minimize Note'/>");
 					container.find(".collapsedContainer:first").on("click",function(){container.containerCollapse(opt);});
 					container.find(".n:first").on("dblclick",function(){container.containerCollapse(opt);});
 				}
@@ -316,7 +316,7 @@
 					container.find(".printContainer:first").on("click",function(){});
 				}
 				if (btn[i]=="i"){
-					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/iconize.png' class='iconizeContainer'/>");
+					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/iconize.png' class='iconizeContainer' title='Iconize'/>");
 					container.find(".iconizeContainer:first").on("click",function(){container.containerIconize(opt);});
 				}
 			}
