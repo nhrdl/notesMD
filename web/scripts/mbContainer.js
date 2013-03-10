@@ -403,7 +403,10 @@
 			/*
 			 ICONIZING CONTAINER
 			 */
-			this.dockIcon= $("<img src='"+opt.elementsPath+"icons/"+(container.attr("icon")?container.attr("icon"):"restore.png")+"' class='restoreContainer' width='"+opt.dockedIconDim+"'/>").appendTo(dockPlace)
+			var myTitle = container.find(".n:first").text();
+			this.dockIcon= $("<div style='word-wrap:break-word;'><img src='"+opt.elementsPath+"icons/"
+					+(container.attr("icon")?container.attr("icon"):"restore.png")
+					+"' class='restoreContainer' width='"+opt.dockedIconDim+"'/><div style='width:60px;'>" + myTitle +"</div></div>").appendTo(dockPlace)
 					.css("cursor","pointer")
 					.hide()
 					.attr("contTitle",container.find(".n:first").text())
