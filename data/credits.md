@@ -7,4 +7,4 @@ This project depends upon many other libraries
 * Peewee library for python
 * Python webkit bindings
 * Tags library https://github.com/xoxco/jQuery-Tags-Input
-* Nettute http://net.tutsplus.com/tutorials/javascript-ajax/inettuts/
+* http://pupunzi.open-lab.com/mb-jquery-components/mb-containerplus/

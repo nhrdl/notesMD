@@ -18,13 +18,23 @@ GObject.threads_init()
 class NotesWeb:
     
     @cherrypy.expose
-    def index(self):
+    def index1(self):
         notes = Note.select()
         for note in notes:
             note.header = note.getHeader()
             print note.text
             
         tmpl = lookup.get_template("index.html")
+        return tmpl.render(notes= notes)
+    
+    @cherrypy.expose
+    def index(self):
+        notes = Note.select()
+        for note in notes:
+            note.header = note.getHeader()
+            print note.text
+            
+        tmpl = lookup.get_template("container.html")
         return tmpl.render(notes= notes)
     
     @cherrypy.expose
