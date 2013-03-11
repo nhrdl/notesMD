@@ -44,7 +44,7 @@ class NotesWeb:
             
         tmpl = lookup.get_template("container.html")
         RuntimeSettings.currentBasket = theBasket
-        return tmpl.render(notes= notes, baskets=baskets)
+        return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket)
     
     @cherrypy.expose
     def edit(self, id):

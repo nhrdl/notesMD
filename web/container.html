@@ -16,15 +16,26 @@
 <script src="scripts/Markdown.Converter.js"></script>
 <style type="text/css">
 <
-style type       ="text /css">body {
+style type         ="text /css">body {
 	background: #0066cc url("elements/bgnds/body_light.png");
 }
 
-a.basket {
+li.basket {
+	list-style: none;
+	background-color: #f1f1f1;
+	padding-bottom: 3px;
+	margin-bottom: 3px;
+}
+
+
+a.basket, a.selectedBasket {
 	color: black;
 	text-decoration: none;
 }
 
+a.selectedBasket {
+font-weight: bolder; 
+}
 .wrapper {
 	font-family: Arial, Helvetica, sans-serif;
 	margin-top: 100px;
@@ -139,11 +150,20 @@ a.basket {
 		<h3>Baskets</h3>
 		<div id="baskets" style="margin: 0px; padding: 0px;">
 			<ul style="margin: 0px; margin-bottom: 4px; padding: 0px;">
-				% for basket in baskets:
-				<li
-					style="list-style: none; background-color: #f1f1f1; padding-bottom: 3px; margin-bottom: 3px;"><a
-					class="basket" href="index?basket=${basket.id}">${basket.basketName}</a></li>
-				%endfor
+				%for basket in baskets:
+				%if basket.id == selectedBasket.id:
+				<%
+					_cls = "basket selectedBasket"
+					%>
+				%else:
+				<%
+					_cls = "basket"
+					%>
+				%endif
+					
+				<li class="basket"><a class="${_cls}"
+					href="index?basket=${basket.id}">${basket.basketName}</a></li> 
+					%endfor
 			</ul>
 		</div>
 	</div>
