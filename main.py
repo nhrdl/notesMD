@@ -51,7 +51,7 @@ class NotesWeb:
     @cherrypy.expose
     def edit(self, id):
         template = lookup.get_template("editor.html")
-        return template.render()
+        return template.render(noteText=RuntimeSettings.currentNote.text)
 
 class CherryPyStart(threading.Thread):
     def run(self):
@@ -99,6 +99,7 @@ class NotesApp:
         self.editNote(note)
         
     def editNote(self, note):
+        RuntimeSettings.currentNote = note
         dialog = Gtk.Dialog(title="Dialog", parent=None, flags=0, 
                             buttons=(Gtk.STOCK_OK, Gtk.ResponseType.OK, Gtk.STOCK_CANCEL, 
                                      Gtk.ResponseType.CANCEL))
@@ -122,7 +123,7 @@ class NotesApp:
             note.save()
             self.view.reload()
         
-            
+        RuntimeSettings.currentNote = None    
         dialog.destroy()
         pass
     
@@ -157,8 +158,9 @@ class NotesApp:
             return False
         
     def navigate(self, view, frame, request, action, decision):
-        decision.ignore()
-        if (request.get_uri().start("notesmd://")):
+       
+        if (request.get_uri().startswith("notesmd://")):
+            decision.ignore()
             uri = request.get_uri().replace("notesmd://", "").replace("[", "").replace("]", "")
             subprocess.call(["gnome-open", uri])
             return True
