@@ -115,6 +115,7 @@ class NotesApp:
             note.text = text
             note.creationDate = note.modificationDate = datetime.date.today()
             note.save()
+            self.view.reload()
         
             
         dialog.destroy()
