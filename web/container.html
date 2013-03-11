@@ -115,6 +115,9 @@ font-weight: bolder;
 		var converter = new Markdown.Converter();
 		$(".noteContent").each(function() {
 			$(this).html(converter.makeHtml($(this).html()));
+			$("a", this).each(function() {
+				$(this).attr("href", "notesmd://" + encodeURIComponent($(this).attr("href")));
+			})
 		});
 		$(".containerPlus").buildContainers({
 			containment : "document",

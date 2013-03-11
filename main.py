@@ -11,6 +11,8 @@ from model import NotesConfig, Note, Basket
 
 from mako.lookup import TemplateLookup
 import datetime
+import time
+import subprocess
 
 lookup = TemplateLookup(directories=['web'])
 GObject.threads_init()
@@ -140,7 +142,16 @@ class NotesApp:
         print message
         return True
         
+    def navigate(self, view, frame, request, action, decision):
+        decision.ignore()
+        print "A", request.get_uri()
+        uri = request.get_uri().replace("notesmd://", "").replace("[", "").replace("]", "")
+        print "URI", uri
+        #Gtk.show_uri(None, uri, time.time())
+        subprocess.call(["gnome-open", uri])
+        return True
         
+            
     def __init__(self):
        
         toolbar = Gtk.Toolbar()
@@ -172,6 +183,7 @@ class NotesApp:
         self.window = win
         self.view.connect("context-menu", self.displayContextMenu)
         self.view.connect("script-alert", self.alert)
+        self.view.connect("navigation-policy-decision-requested", self.navigate)
 
 
 
