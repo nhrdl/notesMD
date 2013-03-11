@@ -291,6 +291,15 @@
 		}
 	};
 
+	jQuery.fn.containerEdit = function(opt)
+	{
+		var container=$(this);
+		var opt= container.get(0).options;
+		var el=container.get(0);
+		if(el.options.onEdit) el.options.onEdit($(el));
+		
+	};
+	
 	jQuery.fn.containerSetButtons = function (buttons,opt){
 		var container=$(this);
 		if (!opt) opt=container.get(0).options;
@@ -299,8 +308,8 @@
 			var btn=buttons.split(",");
 			container.find(".ne:first").append("<div class='buttonBar'></div>");
 			
-			container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/edit-4.png' class='iconizeContainer' title='Edit'/>");
-			container.find(".iconizeContainer:first").on("click",function(){container.containerIconize(opt);});
+			container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/edit-4.png' class='editContainer' title='Edit'/>");
+			container.find(".editContainer:first").on("click",function(){container.containerEdit(opt);});
 			
 			for (var i in btn){
 				if (btn[i]=="c"){

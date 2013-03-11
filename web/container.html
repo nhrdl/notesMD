@@ -130,6 +130,7 @@ font-weight: bolder;
 			onClose : function(o) {
 			},
 			onCollapse : function(o) {
+				alert(o);
 			},
 			onIconize : function(o) {
 			},
@@ -137,6 +138,10 @@ font-weight: bolder;
 			},
 			onRestore : function(o) {
 			},
+			
+			onEdit : function(o) {
+				alert("EDIT:"+o.attr("id"));
+			}
 		});
 
 		$("body").layout({

@@ -3,7 +3,6 @@
 import cherrypy
 import os
 import threading
-import gi
 from gi.repository import WebKit 
 from gi.repository import Gtk 
 from gi.repository import GLib, GObject
@@ -11,8 +10,8 @@ from model import NotesConfig, Note, Basket
 
 from mako.lookup import TemplateLookup
 import datetime
-import time
 import subprocess
+import re
 
 lookup = TemplateLookup(directories=['web'])
 GObject.threads_init()
@@ -139,8 +138,15 @@ class NotesApp:
         
         
     def alert(self, view, frame, message):
-        print message
-        return True
+        #print message
+        m = re.search("^(\w+):[^_]+_(\d+)", message)
+        if (m != None):
+            action = m.group(1)
+            id = m.group(2)
+            print "Action", action, " id", id
+            return True
+        else:
+            return False
         
     def navigate(self, view, frame, request, action, decision):
         decision.ignore()
