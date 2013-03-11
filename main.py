@@ -10,6 +10,7 @@ from gi.repository import GLib, GObject
 from model import NotesConfig, Note, Basket
 
 from mako.lookup import TemplateLookup
+import datetime
 
 lookup = TemplateLookup(directories=['web'])
 GObject.threads_init()
@@ -109,6 +110,11 @@ class NotesApp:
         if (Gtk.ResponseType.OK == response):
             element = self.getTextElement(view)
             text = element.get_value()
+            note = Note();
+            note.basket = RuntimeSettings.currentBasket
+            note.text = text
+            note.creationDate = note.modificationDate = datetime.date.today()
+            note.save()
         
             
         dialog.destroy()
