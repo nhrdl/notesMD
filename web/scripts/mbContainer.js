@@ -298,6 +298,10 @@
 		if (buttons !=""){
 			var btn=buttons.split(",");
 			container.find(".ne:first").append("<div class='buttonBar'></div>");
+			
+			container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/edit-4.png' class='iconizeContainer' title='Edit'/>");
+			container.find(".iconizeContainer:first").on("click",function(){container.containerIconize(opt);});
+			
 			for (var i in btn){
 				if (btn[i]=="c"){
 					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/close.png' class='close' title='Delete note'/>");
@@ -312,14 +316,17 @@
 				}
 				//todo : introduce print container content
 				if (btn[i]=="p"){
-					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/print.png' class='printContainer'/>");
+					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/document-print-4.png' title='Print Note' class='printContainer'/>");
 					container.find(".printContainer:first").on("click",function(){});
 				}
 				if (btn[i]=="i"){
 					container.find(".buttonBar:first").append("<img src='"+path+opt.skin+"/iconize.png' class='iconizeContainer' title='Iconize'/>");
 					container.find(".iconizeContainer:first").on("click",function(){container.containerIconize(opt);});
 				}
+				
+				
 			}
+			
 			var fadeOnClose=$.browser.mozilla || $.browser.safari;
 			if (fadeOnClose) container.find(".buttonBar:first img")
 					.css({opacity:.5, cursor:"pointer","mozUserSelect": "none", "khtmlUserSelect": "none"})

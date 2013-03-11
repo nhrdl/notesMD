@@ -8,3 +8,4 @@ This project depends upon many other libraries
 * Python webkit bindings
 * Tags library https://github.com/xoxco/jQuery-Tags-Input
 * http://pupunzi.open-lab.com/mb-jquery-components/mb-containerplus/
+* Icons from http://openiconlibrary.sourceforge.net
