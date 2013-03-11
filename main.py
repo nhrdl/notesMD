@@ -14,6 +14,8 @@ from mako.lookup import TemplateLookup
 lookup = TemplateLookup(directories=['web'])
 GObject.threads_init()
 
+class RuntimeSettings:
+    currentBasket = None
 
 class NotesWeb:
     
@@ -28,15 +30,20 @@ class NotesWeb:
         return tmpl.render(notes= notes)
     
     @cherrypy.expose
-    def index(self):
-        notes = Note.select()
+    def index(self, basket=None):
+        baskets = Basket.select().order_by(Basket.basketName)
+        
+        if (None == basket):
+            theBasket = Basket.select().order_by(Basket.basketName).first()
+        else:
+            theBasket = Basket.get(Basket.id == basket)
+            
+        notes = theBasket.Notes
         for note in notes:
             note.header = note.getHeader()
-            print note.text
-        
-        baskets = Basket.select()
             
         tmpl = lookup.get_template("container.html")
+        RuntimeSettings.currentBasket = theBasket
         return tmpl.render(notes= notes, baskets=baskets)
     
     @cherrypy.expose
@@ -73,6 +80,8 @@ def idleHookFunction(app):
     return True
     
 class NotesApp:
+    
+    
     def exit(self, arg, a1):
         self.quit(arg)
         

@@ -24,9 +24,11 @@ class ModelBase(Model):
         
 class Basket(ModelBase):
     basketName = CharField()
+    
+    
 
 class Note(ModelBase):
-    basket = ForeignKeyField(Basket)
+    basket = ForeignKeyField(Basket, related_name="Notes")
     text = TextField()
     
     def getHeader(self):
