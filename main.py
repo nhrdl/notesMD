@@ -95,6 +95,10 @@ class NotesApp:
         GLib.idle_add(idleHookFunction, app)    
             
     def newNote(self, webview):
+        note = Note();
+        self.editNote(note)
+        
+    def editNote(self, note):
         dialog = Gtk.Dialog(title="Dialog", parent=None, flags=0, 
                             buttons=(Gtk.STOCK_OK, Gtk.ResponseType.OK, Gtk.STOCK_CANCEL, 
                                      Gtk.ResponseType.CANCEL))
@@ -111,7 +115,7 @@ class NotesApp:
         if (Gtk.ResponseType.OK == response):
             element = self.getTextElement(view)
             text = element.get_value()
-            note = Note();
+            
             note.basket = RuntimeSettings.currentBasket
             note.text = text
             note.creationDate = note.modificationDate = datetime.date.today()
@@ -144,19 +148,22 @@ class NotesApp:
             action = m.group(1)
             id = m.group(2)
             print "Action", action, " id", id
+            if (action == "EDIT"):
+                note = Note.get(Note.id==id)
+                self.editNote(note)
+            
             return True
         else:
             return False
         
     def navigate(self, view, frame, request, action, decision):
         decision.ignore()
-        print "A", request.get_uri()
-        uri = request.get_uri().replace("notesmd://", "").replace("[", "").replace("]", "")
-        print "URI", uri
-        #Gtk.show_uri(None, uri, time.time())
-        subprocess.call(["gnome-open", uri])
-        return True
+        if (request.get_uri().start("notesmd://")):
+            uri = request.get_uri().replace("notesmd://", "").replace("[", "").replace("]", "")
+            subprocess.call(["gnome-open", uri])
+            return True
         
+        return False
             
     def __init__(self):
        
