@@ -144,7 +144,7 @@ class NotesApp:
         
     def alert(self, view, frame, message):
         #print message
-        m = re.search("^(\w+):[^_]+_(\d+)", message)
+        m = re.search("^(\w+):[^_]+_(\d+)(_.*)?", message)
         if (m != None):
             action = m.group(1)
             id = m.group(2)
@@ -152,6 +152,8 @@ class NotesApp:
             if (action == "EDIT"):
                 note = Note.get(Note.id==id)
                 self.editNote(note)
+            if (action == "ADDTAG"):
+                pass
             
             return True
         else:

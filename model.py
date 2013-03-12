@@ -25,6 +25,11 @@ class ModelBase(Model):
 class Basket(ModelBase):
     basketName = CharField()
     
+    class Meta:
+        indexes = (
+            # create a unique on from/to/date
+            (('basketName',), True),
+        )
     
 
 class Note(ModelBase):
@@ -37,11 +42,19 @@ class Note(ModelBase):
 
 class Tag(ModelBase):
     tag = CharField()
+    
+    class Meta:
+        indexes = (
+            # create a unique on from/to/date
+            (('tag',), True),
+        )
 
 
 class NoteTag(ModelBase):
     tag = ForeignKeyField(Tag)
     note = ForeignKeyField(Note)
+    
+   
 
         
 class DBUtil:

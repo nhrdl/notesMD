@@ -8,7 +8,7 @@
 	title="style" media="screen" />
 <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css"
 	title="style" media="screen" />
-	
+
 <script type="text/javascript" src="scripts/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="scripts/jquery-ui-1.10.1.custom.js"></script>
 <script type="text/javascript" src="scripts/jquery.layout-latest.js"></script>
@@ -20,7 +20,7 @@
 <script src="scripts/Markdown.Converter.js"></script>
 <style type="text/css">
 <
-style type         ="text /css">body {
+style type          ="text /css">body {
 	background: #0066cc url("elements/bgnds/body_light.png");
 }
 
@@ -31,15 +31,15 @@ li.basket {
 	margin-bottom: 3px;
 }
 
-
-a.basket, a.selectedBasket {
+a.basket,a.selectedBasket {
 	color: black;
 	text-decoration: none;
 }
 
 a.selectedBasket {
-font-weight: bolder; 
+	font-weight: bolder;
 }
+
 .wrapper {
 	font-family: Arial, Helvetica, sans-serif;
 	margin-top: 100px;
@@ -113,7 +113,11 @@ font-weight: bolder;
 	height: 400px;
 	overflow: auto;
 }
-.ui-helper-hidden-accessible { display: none;}
+
+.ui-helper-hidden-accessible {
+	display: none;
+}
+
 .ui-menu {
 	list-style: none;
 	padding: 2px;
@@ -122,17 +126,20 @@ font-weight: bolder;
 	outline: none;
 	background-color: #CDE69C;
 	color: black;
-	width:100px;
+	width: 100px;
 }
+
 .ui-menu .ui-menu {
 	margin-top: -3px;
 	position: absolute;
 }
+
 .ui-menu .ui-menu-item {
 	margin: 0;
 	padding: 0;
 	width: 100%;
 }
+
 .ui-menu .ui-menu-divider {
 	margin: 5px -2px 5px -2px;
 	height: 0;
@@ -140,6 +147,7 @@ font-weight: bolder;
 	line-height: 0;
 	border-width: 1px 0 0 0;
 }
+
 .ui-menu .ui-menu-item a {
 	text-decoration: none;
 	display: block;
@@ -148,53 +156,70 @@ font-weight: bolder;
 	min-height: 0; /* support: IE7 */
 	font-weight: normal;
 }
-.ui-menu .ui-menu-item a.ui-state-focus,
-.ui-menu .ui-menu-item a.ui-state-active {
+
+.ui-menu .ui-menu-item a.ui-state-focus,.ui-menu .ui-menu-item a.ui-state-active
+	{
 	font-weight: normal;
 	margin: -1px;
 }
-
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
-		var converter = new Markdown.Converter();
-		$(".noteContent").each(function() {
-			$(this).html(converter.makeHtml($(this).html()));
-			$("a", this).each(function() {
-				$(this).attr("href", "notesmd://" + encodeURIComponent($(this).attr("href")));
-			})
-		});
-		
-		
-		$(".containerPlus").buildContainers({
-			containment : "document",
-			elementsPath : "elements/",
-			mantainOnWindow:false,
-			onCreate : function(o) {
-			},
-			onResize : function(o) {
-			},
-			onClose : function(o) {
-			},
-			onCollapse : function(o) {
-			},
-			onIconize : function(o) {
-			},
-			onDrag : function(o) {
-			},
-			onRestore : function(o) {
-			},
-			
-			onEdit : function(o) {
-				alert("EDIT:"+o.attr("id"));
-			}
-		});
-		
-		$(".noteTags").tagsInput({autocomplete_url:["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]});
-		$("body").layout({
-			applyDefaultStyles : true
-		});
-	});
+	$(document).ready(
+			function() {
+				var converter = new Markdown.Converter();
+				$(".noteContent").each(
+						function() {
+							$(this).html(converter.makeHtml($(this).html()));
+							$("a", this).each(
+									function() {
+										$(this).attr(
+												"href",
+												"notesmd://"
+														+ encodeURIComponent($(
+																this).attr(
+																"href")));
+									})
+						});
+
+				$(".containerPlus").buildContainers({
+					containment : "document",
+					elementsPath : "elements/",
+					mantainOnWindow : false,
+					onCreate : function(o) {
+					},
+					onResize : function(o) {
+					},
+					onClose : function(o) {
+					},
+					onCollapse : function(o) {
+					},
+					onIconize : function(o) {
+					},
+					onDrag : function(o) {
+					},
+					onRestore : function(o) {
+					},
+
+					onEdit : function(o) {
+						alert("EDIT:" + o.attr("id"));
+					}
+				});
+
+				$(".noteTags")
+						.tagsInput(
+								{
+									autocomplete_url : [ "c++", "java", "php",
+											"coldfusion", "javascript", "asp",
+											"ruby" ],
+									onAddTag : function(o) {
+										alert("ADDTAG:" + $(this).attr('id') + "_" + o);
+									}
+								});
+				$("body").layout({
+					applyDefaultStyles : true
+
+				});
+			});
 </script>
 </head>
 
@@ -206,20 +231,16 @@ font-weight: bolder;
 		<h3>Baskets</h3>
 		<div id="baskets" style="margin: 0px; padding: 0px;">
 			<ul style="margin: 0px; margin-bottom: 4px; padding: 0px;">
-				%for basket in baskets:
-				%if basket.id == selectedBasket.id:
-				<%
-					_cls = "basket selectedBasket"
-					%>
-				%else:
-				<%
-					_cls = "basket"
-					%>
+				%for basket in baskets: 
+				%if basket.id == selectedBasket.id: 
+				<% _cls = "basket selectedBasket" %> 
+				%else: 
+				<% _cls = "basket" %>
 				%endif
-					
+
 				<li class="basket"><a class="${_cls}"
 					href="index?basket=${basket.id}">${basket.basketName}</a></li> 
-					%endfor
+				%endfor
 			</ul>
 		</div>
 	</div>
@@ -230,9 +251,9 @@ font-weight: bolder;
 				class="containerPlus draggable resizable {buttons:'m,i,p,c', skin:'default', width:'400'}"
 				style="width: 30%; position: relative; float: left;">
 				<div id="note_${note.id}" class="note">
-				<label for="tag_{$note.id}">Tags</label>
-				<input type="text" class="noteTags" id="tag_${note.id}" style="width:100%;" />
-				<hr/>
+					<label for="tag_{$note.id}">Tags</label> <input type="text"
+						class="noteTags" id="tag_${note.id}" style="width: 100%;" />
+					<hr />
 					<div id="note_content_${note.id}" class="noteContent">${note.text}</div>
 				</div>
 			</div>
