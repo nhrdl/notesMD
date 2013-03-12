@@ -18,6 +18,16 @@ GObject.threads_init()
 
 class RuntimeSettings:
     currentBasket = None
+    @staticmethod
+    def getTags():
+        tags = []
+        for tag in Tag.select():
+            tags.append("'" + tag.tag.replace("'", "\\'") + "'")
+        
+        data = "[" + ",".join(tags) + "];"
+        
+        return data
+        
 
 class NotesWeb:
     
@@ -43,11 +53,11 @@ class NotesWeb:
         notes = theBasket.Notes
         for note in notes:
             note.header = note.getHeader()
-            print note.getTags()
             
         tmpl = lookup.get_template("container.html")
         RuntimeSettings.currentBasket = theBasket
-        return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket)
+        tags = RuntimeSettings.getTags()
+        return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket, tagsList=tags)
     
     @cherrypy.expose
     def edit(self, id):
@@ -144,19 +154,26 @@ class NotesApp:
                 menu.remove(item)
         
     def addTag(self, noteId, strTag):
-        dbTag = Tag.select().where(Tag.tag == strTag).limit(1)
-        if (dbTag == None):
+        count = Tag.select().where(Tag.tag == strTag).count()
+        if (count == 0):
             dbTag = Tag()
             dbTag.creationDate = dbTag.modificationDate = datetime.date.today()
             dbTag.tag = strTag
             dbTag.save()
-        
+        else:
+            dbTag = Tag.get(Tag.tag == strTag)
+            
         note = Note.get(Note.id == noteId)
         noteTag = NoteTag()
         noteTag.note = note
         noteTag.tag = dbTag
         noteTag.creationDate = noteTag.modificationDate = datetime.date.today()
-        noteTag.save()    
+        noteTag.save() 
+        
+        self.view.execute_script("notesMD.tags = " + RuntimeSettings.getTags())
+        
+       
+    
         
     def alert(self, view, frame, message):
         #print message

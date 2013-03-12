@@ -166,7 +166,10 @@ a.selectedBasket {
 <script type="text/javascript">
 	$(document).ready(
 			function() {
-				var converter = new Markdown.Converter();
+				notesMD = new Object();
+				notesMD.tags = ${tagsList}
+			
+			var converter = new Markdown.Converter();
 				$(".noteContent").each(
 						function() {
 							$(this).html(converter.makeHtml($(this).html()));
@@ -208,11 +211,12 @@ a.selectedBasket {
 				$(".noteTags")
 						.tagsInput(
 								{
-									autocomplete_url : [ "c++", "java", "php",
-											"coldfusion", "javascript", "asp",
-											"ruby" ],
+									autocomplete_url : notesMD.tags,
 									onAddTag : function(o) {
 										alert("ADDTAG:" + $(this).attr('id') + "_" + o);
+									},
+									onRemoveTag : function(o) {
+										alert("REMOVE:" + $(this).attr('id') + "_" + o);
 									}
 								});
 				$("body").layout({
@@ -252,7 +256,7 @@ a.selectedBasket {
 				class="containerPlus draggable resizable {buttons:'m,i,p,c', skin:'default', width:'400'}"
 				style="width: 30%; position: relative; float: left;">
 				<div id="note_${note.id}" class="note">
-					<label for="tag_${note.id}">Tags</label> <input type="text" value="${tags}"
+					<label for="tag_${note.id}">Tags</label> <input type="text" value="${tags|h}"
 						class="noteTags" id="tag_${note.id}" style="width: 100%;" />
 					<hr />
 					<div id="note_content_${note.id}" class="noteContent">${note.text}</div>
