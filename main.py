@@ -173,7 +173,9 @@ class NotesApp:
         self.view.execute_script("notesMD.tags = " + RuntimeSettings.getTags())
         
        
-    
+    def removeTag(self, noteId, strTag):
+        tag = Tag.get(Tag.tag == strTag)
+        NoteTag.get(NoteTag.note == noteId, NoteTag.tag == tag.id).delete_instance()
         
     def alert(self, view, frame, message):
         #print message
@@ -187,7 +189,8 @@ class NotesApp:
                 self.editNote(note)
             if (action == "ADDTAG"):
                 self.addTag(id, m.group(4))
-            
+            if (action == "REMOVETAG"):
+                self.removeTag(id, m.group(4))
             return True
         else:
             return False
