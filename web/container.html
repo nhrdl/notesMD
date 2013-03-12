@@ -247,11 +247,12 @@ a.selectedBasket {
 	<div class="ui-layout-center">
 		<div>
 			% for note in notes:
+			<% tags = note.getTags() %>
 			<div id="container_${note.id}" title="${note.header}"
 				class="containerPlus draggable resizable {buttons:'m,i,p,c', skin:'default', width:'400'}"
 				style="width: 30%; position: relative; float: left;">
 				<div id="note_${note.id}" class="note">
-					<label for="tag_{$note.id}">Tags</label> <input type="text"
+					<label for="tag_${note.id}">Tags</label> <input type="text" value="${tags}"
 						class="noteTags" id="tag_${note.id}" style="width: 100%;" />
 					<hr />
 					<div id="note_content_${note.id}" class="noteContent">${note.text}</div>

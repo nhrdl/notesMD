@@ -39,6 +39,14 @@ class Note(ModelBase):
     def getHeader(self):
         buf = StringIO.StringIO(self.text)
         return buf.readline()
+    
+    def getTags(self):
+        retval = []
+        for noteTag in NoteTag.select().where(NoteTag.note == self.id):
+            tag = Tag.get(Tag.id==noteTag.tag)
+            retval.append(tag.tag)
+                
+        return ','.join(retval)
 
 class Tag(ModelBase):
     tag = CharField()

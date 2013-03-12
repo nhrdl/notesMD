@@ -43,6 +43,7 @@ class NotesWeb:
         notes = theBasket.Notes
         for note in notes:
             note.header = note.getHeader()
+            print note.getTags()
             
         tmpl = lookup.get_template("container.html")
         RuntimeSettings.currentBasket = theBasket
