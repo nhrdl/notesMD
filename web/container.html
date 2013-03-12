@@ -6,12 +6,16 @@
 	href="css/layout-default-latest.css" title="style" media="screen" />
 <link rel="stylesheet" type="text/css" href="css/mbContainer.css"
 	title="style" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css"
+	title="style" media="screen" />
+	
 <script type="text/javascript" src="scripts/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="scripts/jquery-ui-1.10.1.custom.js"></script>
 <script type="text/javascript" src="scripts/jquery.layout-latest.js"></script>
 
 <script type="text/javascript" src="scripts/jquery.metadata.js"></script>
 <script type="text/javascript" src="scripts/mbContainer.js"></script>
+<script type="text/javascript" src="scripts/jquery.tagsinput.js"></script>
 
 <script src="scripts/Markdown.Converter.js"></script>
 <style type="text/css">
@@ -119,6 +123,8 @@ font-weight: bolder;
 				$(this).attr("href", "notesmd://" + encodeURIComponent($(this).attr("href")));
 			})
 		});
+		
+		
 		$(".containerPlus").buildContainers({
 			containment : "document",
 			elementsPath : "elements/",
@@ -130,7 +136,6 @@ font-weight: bolder;
 			onClose : function(o) {
 			},
 			onCollapse : function(o) {
-				alert(o);
 			},
 			onIconize : function(o) {
 			},
@@ -143,7 +148,7 @@ font-weight: bolder;
 				alert("EDIT:"+o.attr("id"));
 			}
 		});
-
+		$(".noteTags").tagsInput();
 		$("body").layout({
 			applyDefaultStyles : true
 		});
@@ -183,6 +188,9 @@ font-weight: bolder;
 				class="containerPlus draggable resizable {buttons:'m,i,p,c', skin:'default', width:'400'}"
 				style="width: 30%; position: relative; float: left;">
 				<div id="note_${note.id}" class="note">
+				<label for="tag_{$note.id}">Tags</label>
+				<input type="text" class="noteTags" id="tag_${note.id}" style="width:100%;" />
+				<hr/>
 					<div id="note_content_${note.id}" class="noteContent">${note.text}</div>
 				</div>
 			</div>
