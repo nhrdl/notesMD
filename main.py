@@ -185,11 +185,17 @@ class NotesApp:
         return False
             
     def __init__(self):
-       
+        win = Gtk.Window()
+        agr = Gtk.AccelGroup()
+        win.add_accel_group(agr)
+        
         toolbar = Gtk.Toolbar()
         # toolbar.set_style(Gtk.ToobarStyle.GTTOOLBAR_ICONS)
         newNoteTb = Gtk.ToolButton(Gtk.STOCK_NEW)
         newNoteTb.connect("clicked", self.newNote)
+        key, mod = Gtk.accelerator_parse("<Control>N")
+        newNoteTb.add_accelerator("clicked", agr, key, mod, Gtk.AccelFlags.VISIBLE)
+        
         sep = Gtk.SeparatorToolItem()
         quittb = Gtk.ToolButton(Gtk.STOCK_QUIT)
         quittb.connect("clicked", self.quit)
@@ -201,7 +207,7 @@ class NotesApp:
         sw = Gtk.ScrolledWindow() 
         sw.add(self.view) 
 
-        win = Gtk.Window()
+        
         vbox = Gtk.VBox()
         vbox.pack_start(toolbar, False, False, 0)
         win.add(vbox)
