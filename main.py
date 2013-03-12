@@ -6,7 +6,7 @@ import threading
 from gi.repository import WebKit 
 from gi.repository import Gtk 
 from gi.repository import GLib, GObject
-from model import NotesConfig, Note, Basket
+from model import NotesConfig, Note, Basket, NoteTag, Tag
 
 from mako.lookup import TemplateLookup
 import datetime
@@ -96,6 +96,7 @@ class NotesApp:
             
     def newNote(self, webview):
         note = Note();
+        note.creationDate = datetime.date.today()
         self.editNote(note)
         
     def editNote(self, note):
@@ -119,7 +120,7 @@ class NotesApp:
             
             note.basket = RuntimeSettings.currentBasket
             note.text = text
-            note.creationDate = note.modificationDate = datetime.date.today()
+            note.modificationDate = datetime.date.today()
             note.save()
             self.view.reload()
         
@@ -141,10 +142,24 @@ class NotesApp:
             if (y == item.get_label()):
                 menu.remove(item)
         
+    def addTag(self, noteId, strTag):
+        dbTag = Tag.select().where(Tag.tag == strTag).limit(1)
+        if (dbTag == None):
+            dbTag = Tag()
+            dbTag.creationDate = dbTag.modificationDate = datetime.date.today()
+            dbTag.tag = strTag
+            dbTag.save()
+        
+        note = Note.get(Note.id == noteId)
+        noteTag = NoteTag()
+        noteTag.note = note
+        noteTag.tag = dbTag
+        noteTag.creationDate = noteTag.modificationDate = datetime.date.today()
+        noteTag.save()    
         
     def alert(self, view, frame, message):
         #print message
-        m = re.search("^(\w+):[^_]+_(\d+)(_.*)?", message)
+        m = re.search("^(\w+):[^_]+_(\d+)(_(.*))?", message)
         if (m != None):
             action = m.group(1)
             id = m.group(2)
@@ -153,7 +168,7 @@ class NotesApp:
                 note = Note.get(Note.id==id)
                 self.editNote(note)
             if (action == "ADDTAG"):
-                pass
+                self.addTag(id, m.group(4))
             
             return True
         else:
