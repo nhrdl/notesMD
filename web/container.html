@@ -170,7 +170,11 @@ a.selectedBasket {
 	$(document).ready(
 			function() {
 				notesMD = new Object();
-				notesMD.tags = ${tagsList}
+				notesMD.tags = ${tagsList};
+				notesMD.addBasket = function() {
+					var result = prompt('New unique basket name', 'basket');
+					alert("ADDBASKET:" +  result +"_1");
+				}
 			
 			var converter = new Markdown.Converter();
 				$(".noteContent").each(
@@ -234,7 +238,7 @@ a.selectedBasket {
 	<div class="ui-layout-north">
 		<div>
 			<button class="headerButton" onclick="javascript:alert('ADDNOTE:NEWNOTE_1');">Add note</button>
-			<button class="hederButton">Add basket</button>
+			<button class="hederButton" onclick="javascript:notesMD.addBasket();">Add basket</button>
 			<button class="headerButton">Search</button>
 			<button class="hederButton">Tag cloud</button>
 		 </div>

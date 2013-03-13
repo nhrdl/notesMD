@@ -12,6 +12,7 @@ from mako.lookup import TemplateLookup
 import datetime
 import subprocess
 import re
+from peewee import fn
 
 lookup = TemplateLookup(directories=['web'])
 GObject.threads_init()
@@ -43,10 +44,11 @@ class NotesWeb:
     
     @cherrypy.expose
     def index(self, basket=None):
-        baskets = Basket.select().order_by(Basket.basketName)
+        #+ " collate nocase"
+        baskets = Basket.select().order_by(fn.Lower(Basket.basketName))
         
         if (None == basket):
-            theBasket = Basket.select().order_by(Basket.basketName).first()
+            theBasket = Basket.select().order_by(fn.Lower(Basket.basketName)).first()
         else:
             theBasket = Basket.get(Basket.id == basket)
             
@@ -176,23 +178,32 @@ class NotesApp:
     def removeTag(self, noteId, strTag):
         tag = Tag.get(Tag.tag == strTag)
         NoteTag.get(NoteTag.note == noteId, NoteTag.tag == tag.id).delete_instance()
-        
+    
+    def addBasket(self, basketName):
+        basket = Basket()
+        basket.creationDate = basket.modificationDate = datetime.date.today()
+        basket.basketName = basketName
+        basket.save()
+        self.view.reload()
+            
     def alert(self, view, frame, message):
         #print message
-        m = re.search("^(\w+):[^_]+_(\d+)(_(.*))?", message)
+        m = re.search("^(\w+):([^_]+)_(\d+)(_(.*))?", message)
         if (m != None):
             action = m.group(1)
-            id = m.group(2)
+            id = m.group(3)
             print "Action", action, " id", id
             if (action == "EDIT"):
                 note = Note.get(Note.id==id)
                 self.editNote(note)
             if (action == "ADDTAG"):
-                self.addTag(id, m.group(4))
+                self.addTag(id, m.group(5))
             if (action == "REMOVETAG"):
-                self.removeTag(id, m.group(4))
+                self.removeTag(id, m.group(5))
             if (action == "ADDNOTE"):
                 self.newNote(None)
+            if (action == "ADDBASKET"):
+                self.addBasket(m.group(2))
             return True
         else:
             return False
