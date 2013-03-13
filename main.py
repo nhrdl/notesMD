@@ -191,6 +191,8 @@ class NotesApp:
                 self.addTag(id, m.group(4))
             if (action == "REMOVETAG"):
                 self.removeTag(id, m.group(4))
+            if (action == "ADDNOTE"):
+                self.newNote(None)
             return True
         else:
             return False
