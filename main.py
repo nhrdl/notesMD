@@ -185,7 +185,15 @@ class NotesApp:
         basket.basketName = basketName
         basket.save()
         self.view.reload()
-            
+    
+    def addDroppedNote(self, path):
+        note = Note();
+        note.modificationDate =  note.creationDate = datetime.date.today()
+        note.basket =  RuntimeSettings.currentBasket
+        note.text = path
+        note.save()
+        self.view.reload()
+          
     def alert(self, view, frame, message):
         #print message
         m = re.search("^(\w+):([^_]+)_(\d+)(_(.*))?", message)
@@ -204,6 +212,8 @@ class NotesApp:
                 self.newNote(None)
             if (action == "ADDBASKET"):
                 self.addBasket(m.group(2))
+            if(action == "ADDDROPPEDNOTE"):
+                self.addDroppedNote(m.group(5))
             return True
         else:
             return False

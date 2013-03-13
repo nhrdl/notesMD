@@ -175,7 +175,20 @@ a.selectedBasket {
 					var result = prompt('New unique basket name', 'basket');
 					alert("ADDBASKET:" +  result +"_1");
 				}
-			
+				notesMD.dropped = function(event)
+				{
+					 var dt = event.dataTransfer;
+					event.preventDefault();
+					path = dt.getData("TEXT");
+					//alert(path);
+					path = dt.getData("URL");
+					alert(path);
+					alert("ADDDROPPEDNOTE:NEWNOTE_1_"+path)
+				}
+				notesMD.onDrgagOver = function(event)
+				{
+					event.preventDefault();
+				}
 			var converter = new Markdown.Converter();
 				$(".noteContent").each(
 						function() {
@@ -234,7 +247,7 @@ a.selectedBasket {
 </script>
 </head>
 
-<body class="wrapper">
+<body class="wrapper" ondrop="notesMD.dropped(event);" ondragover="notesMD.onDrgagOver(event);">
 	<div class="ui-layout-north">
 		<div>
 			<button class="headerButton" onclick="javascript:alert('ADDNOTE:NEWNOTE_1');">Add note</button>
