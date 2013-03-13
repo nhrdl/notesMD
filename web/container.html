@@ -179,10 +179,18 @@ a.selectedBasket {
 				{
 					 var dt = event.dataTransfer;
 					event.preventDefault();
-					path = dt.getData("TEXT");
-					//alert(path);
-					path = dt.getData("URL");
-					alert(path);
+					
+ 					var path = dt.getData("text/uri-list");
+ 					if (path.length == 0)
+ 						path = dt.getData("URL");
+
+ 					if (path == null || path.length == 0) {
+						path = dt.getData("Text").toString();	
+					}
+// 					if (dt.items)
+// 					for (var i =0 ; i < dt.items.length; i++) {
+// 						path = path + dt.items[i].getAsString() +"\n";
+// 					}
 					alert("ADDDROPPEDNOTE:NEWNOTE_1_"+path)
 				}
 				notesMD.onDrgagOver = function(event)

@@ -94,6 +94,11 @@ def idleHookFunction(app):
     
     return True
     
+
+
+    pass
+
+
 class NotesApp:
     
     
@@ -213,7 +218,9 @@ class NotesApp:
             if (action == "ADDBASKET"):
                 self.addBasket(m.group(2))
             if(action == "ADDDROPPEDNOTE"):
-                self.addDroppedNote(m.group(5))
+                print message
+                print message[int(m.start(5)):]
+                self.addDroppedNote(message[int(m.start(5)):])
             return True
         else:
             return False
@@ -227,7 +234,10 @@ class NotesApp:
             return True
         
         return False
-            
+    
+    def activate_inspector(self, inspector, view):  
+        return self.inspectorView
+              
     def __init__(self):
         win = Gtk.Window()
         agr = Gtk.AccelGroup()
@@ -257,6 +267,16 @@ class NotesApp:
         win.add(vbox)
         vbox.add(sw)
 
+        sw1 = Gtk.ScrolledWindow() 
+        self.inspectorView = WebKit.WebView();
+        sw1.add(self.inspectorView) 
+        inspector = self.view.get_inspector()  
+        inspector.connect("inspect-web-view",self.activate_inspector) 
+        vbox.add(sw1)
+        
+        settings = self.view.get_settings()
+        settings.set_property("enable-developer-extras",True)  
+        
         win.show_all() 
         win.connect("delete-event", self.exit)
         self.view.open(NotesConfig.formUrl( ""))
