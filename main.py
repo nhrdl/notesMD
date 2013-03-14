@@ -61,12 +61,13 @@ class NotesWeb:
         tmpl = lookup.get_template("container.html")
         RuntimeSettings.currentBasket = theBasket
         tags = RuntimeSettings.getTags()
-        return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket, tagsList=tags)
+        return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket, 
+                           tagsList=tags, base = "file://" + NotesConfig.webDir + "/")
     
     @cherrypy.expose
     def edit(self, id):
         template = lookup.get_template("editor.html")
-        return template.render(noteText=RuntimeSettings.currentNote.text)
+        return template.render(noteText=RuntimeSettings.currentNote.text, base = "file://" + NotesConfig.webDir + "/")
 
 class CherryPyStart(threading.Thread):
     def run(self):
@@ -82,7 +83,7 @@ class CherryPyStart(threading.Thread):
         cherrypy.engine.start()
         
          
-CherryPyStart().start()
+#CherryPyStart().start()
 
     
 exitLoop = False
@@ -126,11 +127,15 @@ class NotesApp:
                                      Gtk.ResponseType.CANCEL))
         box = dialog.get_content_area()
         view = WebKit.WebView()
+        settings = view.get_settings()
+        settings.set_property("enable-file-access-from-file-uris", True)
         sw = Gtk.ScrolledWindow()
         sw.add(view)
         box.pack_start(sw, True, True, 5)
-        view.open(NotesConfig.formUrl("edit?id=-1"))
-        box.add(sw)
+        template = NotesWeb().edit("-1");
+       # view.open(NotesConfig.formUrl("edit?id=-1"))
+        view.load_string(template, "text/html", "UTF-8", "file://" + NotesConfig.webDir)
+        #box.add(sw)
         box.show_all()
         dialog.maximize()
         response = dialog.run()
@@ -142,7 +147,7 @@ class NotesApp:
             note.text = text
             note.modificationDate = datetime.date.today()
             note.save()
-            self.view.reload()
+            self.reload()
         
         RuntimeSettings.currentNote = None    
         dialog.destroy()
@@ -181,7 +186,10 @@ class NotesApp:
         
         self.view.execute_script("notesMD.tags = " + RuntimeSettings.getTags())
         
-       
+    def reload(self):
+        template = NotesWeb().index(RuntimeSettings.currentBasket.id)
+        self.view.load_string(template,"text/html", "UTF-8", "file://" + NotesConfig.webDir)
+           
     def removeTag(self, noteId, strTag):
         tag = Tag.get(Tag.tag == strTag)
         NoteTag.get(NoteTag.note == noteId, NoteTag.tag == tag.id).delete_instance()
@@ -191,7 +199,7 @@ class NotesApp:
         basket.creationDate = basket.modificationDate = datetime.date.today()
         basket.basketName = basketName
         basket.save()
-        self.view.reload()
+        self.reload()
     
     def addDroppedNote(self, path):
         note = Note();
@@ -199,8 +207,12 @@ class NotesApp:
         note.basket =  RuntimeSettings.currentBasket
         note.text = path
         note.save()
-        self.view.reload()
-          
+        self.reload()
+    
+    def selectBasket(self, basket):
+        template = NotesWeb().index(basket)
+        self.view.load_string(template,"text/html", "UTF-8", "file://" + NotesConfig.webDir)
+              
     def alert(self, view, frame, message):
         #print message
         m = re.search("^(\w+):([^_]+)_(\d+)(_(.*))?", message)
@@ -219,22 +231,27 @@ class NotesApp:
                 self.newNote(None)
             if (action == "ADDBASKET"):
                 self.addBasket(m.group(2))
-            if(action == "ADDDROPPEDNOTE"):
-                print message
-                print message[int(m.start(5)):]
+            if (action == "ADDDROPPEDNOTE"):
                 self.addDroppedNote(message[int(m.start(5)):])
+            if (action == "SELECTBASKET"):
+                self.selectBasket(m.group(5))
+                
             return True
         else:
             return False
         
     def navigate(self, view, frame, request, action, decision):
        
-        if (request.get_uri().startswith("notesmd://")):
+        uri = request.get_uri()
+        if (uri.startswith("notesmd://")):
             decision.ignore()
             uri = request.get_uri().replace("notesmd://", "").replace("[", "").replace("]", "")
             subprocess.call(["gnome-open", uri])
             return True
-        
+        if (uri.startswith("basket:")):
+            decision.ignore()
+            uri = request.get_uri().replace("basket:", "")
+            
         return False
     
     def activate_inspector(self, inspector, view):  
@@ -279,11 +296,15 @@ class NotesApp:
         
         settings = self.view.get_settings()
         settings.set_property("enable-developer-extras",True)  
+        settings.set_property("enable-file-access-from-file-uris", True)
+        print settings.get_property("enable-file-access-from-file-uris")
+        self.view.set_settings(settings)
         
         win.show_all() 
         win.connect("delete-event", self.exit)
-        self.view.open(NotesConfig.formUrl( ""))
-        
+        index = NotesWeb().index()
+#        self.view.open(NotesConfig.formUrl( ""))
+        self.view.load_string(index, "text/html", "UTF-8", "file://" + NotesConfig.webDir)       
         win.maximize()
         self.window = win
         self.view.connect("context-menu", self.displayContextMenu)
@@ -295,6 +316,8 @@ home = expanduser("~")
 NotesConfig.configPath = home + "/.config/notesMD"
 if (os.path.isdir(NotesConfig.configPath) == False):
     os.makedirs(NotesConfig.configPath)
+
+NotesConfig.webDir = "/home/niranjan/work/notesMD" +"/web"
     
 dbPath = NotesConfig.configPath + "/notes.db"
 NotesConfig.database.init(dbPath)
