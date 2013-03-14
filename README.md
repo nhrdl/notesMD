@@ -26,5 +26,7 @@ You can also drag and drop almost anything that can dropped. The tool will creat
 
 Even though webkit is perfectly capable of handling many of the link destination that your notes are showing, the tool ensures that all links are opened using system's tools set for the link type. In short, behavior should be similar to when you doubleclick the file.
 
+License Apache license version 2.0 https://www.apache.org/licenses/LICENSE-2.0.html
+
   [1]: http://basket.kde.org/
   [2]:https://www.google.com/search?&q=markdown+
