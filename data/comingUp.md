@@ -1,8 +1,14 @@
-Notes MD
+Notes MD - Features coming up
 ========
 
-This is a simple tool that allows you to manage notes. I was looking for a tool that allows me to
+The tool is by no means complete. I am working on the tool in my spare time and adding features or fixing problems as fast as I can. However I do have demanding job and family. So the speed of improvements will not be always great.
 
-* CRUD operations on notes
-* Allow tagging of notes
-* Easy to use
+Here is something that you can expect in next few days.
+
+ 1. Delete note functionality
+ 2. Rename note
+ 3. Search notes
+ 4. Tag cloud and ability to search notes using tags
+ 5. General polishing. You might have noticed HTML UI is not my strongest skill
+ 6. Remove dependency on CherryPy and make the tool file only. In other words no web server should be needed.
+ 7. Ubuntu packaging/create PPA and make it available through ubuntu app channel. Right now I have no idea how to do it, but am sure google search will enlight me.
