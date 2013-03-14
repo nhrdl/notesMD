@@ -67,7 +67,7 @@ class NotesWeb:
     @cherrypy.expose
     def edit(self, id):
         template = lookup.get_template("editor.html")
-        return template.render(noteText=RuntimeSettings.currentNote.text)
+        return template.render(noteText=RuntimeSettings.currentNote.text, base = "file://" + NotesConfig.webDir + "/")
 
 class CherryPyStart(threading.Thread):
     def run(self):
@@ -127,11 +127,15 @@ class NotesApp:
                                      Gtk.ResponseType.CANCEL))
         box = dialog.get_content_area()
         view = WebKit.WebView()
+        settings = view.get_settings()
+        settings.set_property("enable-file-access-from-file-uris", True)
         sw = Gtk.ScrolledWindow()
         sw.add(view)
         box.pack_start(sw, True, True, 5)
-        view.open(NotesConfig.formUrl("edit?id=-1"))
-        box.add(sw)
+        template = NotesWeb().edit("-1");
+       # view.open(NotesConfig.formUrl("edit?id=-1"))
+        view.load_string(template, "text/html", "UTF-8", "file://" + NotesConfig.webDir)
+        #box.add(sw)
         box.show_all()
         dialog.maximize()
         response = dialog.run()

@@ -264,8 +264,8 @@ a.selectedBasket {
 <body class="wrapper" ondrop="notesMD.dropped(event);" ondragover="notesMD.onDrgagOver(event);">
 	<div class="ui-layout-north">
 		<div>
-			<button class="headerButton" onclick="javascript:alert('ADDNOTE:NEWNOTE_1');">Add note</button>
-			<button class="hederButton" onclick="javascript:notesMD.addBasket();">Add basket</button>
+			<button class="headerButton" onclick="javascript:alert('ADDNOTE:NEWNOTE_1'); return false;">Add note</button>
+			<button class="hederButton" onclick="javascript:notesMD.addBasket(); return false;">Add basket</button>
 <!-- 			<button class="headerButton">Search</button> -->
 <!-- 			<button class="hederButton">Tag cloud</button> -->
 		 </div>
