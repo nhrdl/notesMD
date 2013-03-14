@@ -83,7 +83,7 @@ class CherryPyStart(threading.Thread):
         cherrypy.engine.start()
         
          
-CherryPyStart().start()
+#CherryPyStart().start()
 
     
 exitLoop = False
@@ -182,7 +182,10 @@ class NotesApp:
         
         self.view.execute_script("notesMD.tags = " + RuntimeSettings.getTags())
         
-       
+    def reload(self):
+        template = NotesWeb().index(RuntimeSettings.currentBasket.id)
+        self.view.load_string(template,"text/html", "UTF-8", "file://" + NotesConfig.webDir)
+           
     def removeTag(self, noteId, strTag):
         tag = Tag.get(Tag.tag == strTag)
         NoteTag.get(NoteTag.note == noteId, NoteTag.tag == tag.id).delete_instance()
@@ -192,7 +195,7 @@ class NotesApp:
         basket.creationDate = basket.modificationDate = datetime.date.today()
         basket.basketName = basketName
         basket.save()
-        self.view.reload()
+        self.reload()
     
     def addDroppedNote(self, path):
         note = Note();
@@ -200,8 +203,12 @@ class NotesApp:
         note.basket =  RuntimeSettings.currentBasket
         note.text = path
         note.save()
-        self.view.reload()
-          
+        self.reload()
+    
+    def selectBasket(self, basket):
+        template = NotesWeb().index(basket)
+        self.view.load_string(template,"text/html", "UTF-8", "file://" + NotesConfig.webDir)
+              
     def alert(self, view, frame, message):
         #print message
         m = re.search("^(\w+):([^_]+)_(\d+)(_(.*))?", message)
@@ -220,22 +227,27 @@ class NotesApp:
                 self.newNote(None)
             if (action == "ADDBASKET"):
                 self.addBasket(m.group(2))
-            if(action == "ADDDROPPEDNOTE"):
-                print message
-                print message[int(m.start(5)):]
+            if (action == "ADDDROPPEDNOTE"):
                 self.addDroppedNote(message[int(m.start(5)):])
+            if (action == "SELECTBASKET"):
+                self.selectBasket(m.group(5))
+                
             return True
         else:
             return False
         
     def navigate(self, view, frame, request, action, decision):
        
-        if (request.get_uri().startswith("notesmd://")):
+        uri = request.get_uri()
+        if (uri.startswith("notesmd://")):
             decision.ignore()
             uri = request.get_uri().replace("notesmd://", "").replace("[", "").replace("]", "")
             subprocess.call(["gnome-open", uri])
             return True
-        
+        if (uri.startswith("basket:")):
+            decision.ignore()
+            uri = request.get_uri().replace("basket:", "")
+            
         return False
     
     def activate_inspector(self, inspector, view):  

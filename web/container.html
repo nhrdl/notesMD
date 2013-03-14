@@ -197,6 +197,12 @@ a.selectedBasket {
 				{
 					event.preventDefault();
 				}
+				notesMD.selectBasket = function(event, basket)
+				{
+					alert("SELECTBASKET:NEWNOTE_1_" + basket);
+					event.preventDefault();
+					return false;
+				}
 			var converter = new Markdown.Converter();
 				$(".noteContent").each(
 						function() {
@@ -276,7 +282,7 @@ a.selectedBasket {
 				%endif
 
 				<li class="basket"><a class="${_cls}"
-					href="index?basket=${basket.id}" onclick="javascript:selectBasket(${basket.id})">${basket.basketName}</a></li> 
+					href="index?basket=${basket.id}" onclick="javascript:return notesMD.selectBasket(event, ${basket.id})">${basket.basketName}</a></li> 
 				%endfor
 			</ul>
 		</div>
