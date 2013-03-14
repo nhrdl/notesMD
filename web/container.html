@@ -2,6 +2,7 @@
 
 <html>
 <head>
+
 <link rel="stylesheet" type="text/css"
 	href="css/layout-default-latest.css" title="style" media="screen" />
 <link rel="stylesheet" type="text/css" href="css/mbContainer.css"
@@ -260,8 +261,8 @@ a.selectedBasket {
 		<div>
 			<button class="headerButton" onclick="javascript:alert('ADDNOTE:NEWNOTE_1');">Add note</button>
 			<button class="hederButton" onclick="javascript:notesMD.addBasket();">Add basket</button>
-			<button class="headerButton">Search</button>
-			<button class="hederButton">Tag cloud</button>
+<!-- 			<button class="headerButton">Search</button> -->
+<!-- 			<button class="hederButton">Tag cloud</button> -->
 		 </div>
 	</div>
 	<div class="ui-layout-west">
@@ -276,7 +277,7 @@ a.selectedBasket {
 				%endif
 
 				<li class="basket"><a class="${_cls}"
-					href="index?basket=${basket.id}">${basket.basketName}</a></li> 
+					href="index?basket=${basket.id}" onclick="javascript:selectBasket(${basket.id})">${basket.basketName}</a></li> 
 				%endfor
 			</ul>
 		</div>

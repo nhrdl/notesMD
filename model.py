@@ -9,13 +9,13 @@ import StringIO
 class NotesConfig:
     database = SqliteDatabase(None, threadlocals=True)
     port = "8080"
+    showWebInspector = False
     
     @staticmethod
     def formUrl(path):
         return "http://localhost:"+ NotesConfig.port +"/" +path
 
     
-    showWebInspector = False
     
 
 class ModelBase(Model):

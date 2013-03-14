@@ -6,13 +6,15 @@ import threading
 from gi.repository import WebKit 
 from gi.repository import Gtk 
 from gi.repository import GLib, GObject
-from model import NotesConfig, Note, Basket, NoteTag, Tag
+from model import NotesConfig, Note, Basket, NoteTag, Tag, DBUtil
+from os.path import expanduser
 
 from mako.lookup import TemplateLookup
 import datetime
 import subprocess
 import re
 from peewee import fn
+from loadInitialData import DataLoader
 
 lookup = TemplateLookup(directories=['web'])
 GObject.threads_init()
@@ -289,8 +291,19 @@ class NotesApp:
         self.view.connect("navigation-policy-decision-requested", self.navigate)
 
 
+home = expanduser("~")
+NotesConfig.configPath = home + "/.config/notesMD"
+if (os.path.isdir(NotesConfig.configPath) == False):
+    os.makedirs(NotesConfig.configPath)
+    
+dbPath = NotesConfig.configPath + "/notes.db"
+NotesConfig.database.init(dbPath)
 
-NotesConfig.database.init("/tmp/notes.db")
+if (os.path.exists(dbPath) == False):
+    DBUtil.createTables()
+    DataLoader().createNotes()
+
+
 
 app = NotesApp()
 
