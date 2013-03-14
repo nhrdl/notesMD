@@ -61,7 +61,8 @@ class NotesWeb:
         tmpl = lookup.get_template("container.html")
         RuntimeSettings.currentBasket = theBasket
         tags = RuntimeSettings.getTags()
-        return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket, tagsList=tags)
+        return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket, 
+                           tagsList=tags, base = "file://" + NotesConfig.webDir + "/")
     
     @cherrypy.expose
     def edit(self, id):
@@ -279,11 +280,15 @@ class NotesApp:
         
         settings = self.view.get_settings()
         settings.set_property("enable-developer-extras",True)  
+        settings.set_property("enable-file-access-from-file-uris", True)
+        print settings.get_property("enable-file-access-from-file-uris")
+        self.view.set_settings(settings)
         
         win.show_all() 
         win.connect("delete-event", self.exit)
-        self.view.open(NotesConfig.formUrl( ""))
-        
+        index = NotesWeb().index()
+#        self.view.open(NotesConfig.formUrl( ""))
+        self.view.load_string(index, "text/html", "UTF-8", "file://" + NotesConfig.webDir)       
         win.maximize()
         self.window = win
         self.view.connect("context-menu", self.displayContextMenu)
@@ -295,6 +300,8 @@ home = expanduser("~")
 NotesConfig.configPath = home + "/.config/notesMD"
 if (os.path.isdir(NotesConfig.configPath) == False):
     os.makedirs(NotesConfig.configPath)
+
+NotesConfig.webDir = "/home/niranjan/work/notesMD" +"/web"
     
 dbPath = NotesConfig.configPath + "/notes.db"
 NotesConfig.database.init(dbPath)
