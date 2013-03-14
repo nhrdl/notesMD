@@ -14,6 +14,10 @@ class NotesConfig:
     def formUrl(path):
         return "http://localhost:"+ NotesConfig.port +"/" +path
 
+    
+    showWebInspector = False
+    
+
 class ModelBase(Model):
     creationDate = DateField()
     modificationDate = DateField()

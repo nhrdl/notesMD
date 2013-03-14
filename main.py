@@ -267,12 +267,13 @@ class NotesApp:
         win.add(vbox)
         vbox.add(sw)
 
-        sw1 = Gtk.ScrolledWindow() 
-        self.inspectorView = WebKit.WebView();
-        sw1.add(self.inspectorView) 
-        inspector = self.view.get_inspector()  
-        inspector.connect("inspect-web-view",self.activate_inspector) 
-        vbox.add(sw1)
+        if (NotesConfig.showWebInspector):
+            sw1 = Gtk.ScrolledWindow() 
+            self.inspectorView = WebKit.WebView();
+            sw1.add(self.inspectorView) 
+            inspector = self.view.get_inspector()  
+            inspector.connect("inspect-web-view",self.activate_inspector) 
+            vbox.add(sw1)
         
         settings = self.view.get_settings()
         settings.set_property("enable-developer-extras",True)  
