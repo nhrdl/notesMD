@@ -317,7 +317,7 @@ NotesConfig.configPath = home + "/.config/notesMD"
 if (os.path.isdir(NotesConfig.configPath) == False):
     os.makedirs(NotesConfig.configPath)
 
-NotesConfig.webDir = "/home/niranjan/work/notesMD" +"/web"
+NotesConfig.webDir = os.path.dirname(os.path.realpath(__file__)) +"/web"
     
 dbPath = NotesConfig.configPath + "/notes.db"
 NotesConfig.database.init(dbPath)
