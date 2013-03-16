@@ -599,7 +599,7 @@
 		var el=$(this).get(0);
 		var container=$(this);
 		if (!container.mb_getState('closed') && !container.mb_getState('iconized')){
-			if(el.options.onBeforeClose) el.options.onBeforeClose($(el));
+			if(el.options.onBeforeClose) {if (!el.options.onBeforeClose($(el))) return;};
 			if(!container.mb_getState('collapsed')){
 				container.attr("w",container.outerWidth());
 				container.attr("h",container.outerHeight());

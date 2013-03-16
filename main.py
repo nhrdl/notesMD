@@ -102,6 +102,8 @@ def idleHookFunction(app):
     pass
 
 
+
+
 class NotesApp:
     
     
@@ -188,6 +190,9 @@ class NotesApp:
         
     def reload(self):
         template = NotesWeb().index(RuntimeSettings.currentBasket.id)
+        f = open("/tmp/t.html", "w")
+        f.write(template)
+        f.close()
         self.view.load_string(template,"text/html", "UTF-8", "file://" + NotesConfig.webDir)
            
     def removeTag(self, noteId, strTag):
@@ -212,9 +217,16 @@ class NotesApp:
     def selectBasket(self, basket):
         template = NotesWeb().index(basket)
         self.view.load_string(template,"text/html", "UTF-8", "file://" + NotesConfig.webDir)
+
+    def deleteNote(self, id):
+        note = Note.get(Note.id == id)
+        note.delete_instance()
+        for noteTag in NoteTag.select().where(NoteTag.note == id):
+            noteTag.delete_instance()
+        self.reload()
               
     def alert(self, view, frame, message):
-        #print message
+        print message
         m = re.search("^(\w+):([^_]+)_(\d+)(_(.*))?", message)
         if (m != None):
             action = m.group(1)
@@ -235,6 +247,8 @@ class NotesApp:
                 self.addDroppedNote(message[int(m.start(5)):])
             if (action == "SELECTBASKET"):
                 self.selectBasket(m.group(5))
+            if (action == "DELETENOTE"):
+                self.deleteNote(id)
                 
             return True
         else:
