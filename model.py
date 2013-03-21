@@ -9,7 +9,7 @@ import StringIO
 class NotesConfig:
     database = SqliteDatabase(None, threadlocals=True)
     port = "8080"
-    showWebInspector = False
+    showWebInspector = True
     
     @staticmethod
     def formUrl(path):

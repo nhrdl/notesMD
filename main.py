@@ -300,7 +300,10 @@ class NotesApp:
         win.add(vbox)
         vbox.add(sw)
 
+        settings = self.view.get_settings()
+        
         if (NotesConfig.showWebInspector):
+            settings.set_property("enable-developer-extras",True)
             sw1 = Gtk.ScrolledWindow() 
             self.inspectorView = WebKit.WebView();
             sw1.add(self.inspectorView) 
@@ -308,17 +311,20 @@ class NotesApp:
             inspector.connect("inspect-web-view",self.activate_inspector) 
             vbox.add(sw1)
         
-        settings = self.view.get_settings()
-        settings.set_property("enable-developer-extras",True)  
+          
         settings.set_property("enable-file-access-from-file-uris", True)
         print settings.get_property("enable-file-access-from-file-uris")
         self.view.set_settings(settings)
         
         win.show_all() 
+        
+        
         win.connect("delete-event", self.exit)
         index = NotesWeb().index()
 #        self.view.open(NotesConfig.formUrl( ""))
-        self.view.load_string(index, "text/html", "UTF-8", "file://" + NotesConfig.webDir)       
+        self.view.load_string(index, "text/html", "UTF-8", "file://" + NotesConfig.webDir)   
+        self.view.search_text("note", False, True, True)
+        self.view.set_highlight_text_matches(True)    
         win.maximize()
         self.window = win
         self.view.connect("context-menu", self.displayContextMenu)
