@@ -224,9 +224,15 @@ class NotesApp:
         for noteTag in NoteTag.select().where(NoteTag.note == id):
             noteTag.delete_instance()
         self.reload()
-              
+
+    def searchText(self, text):
+        self.view.search_text(text, False, True, True)
+        self.view.set_highlight_text_matches(True)
+                      
     def alert(self, view, frame, message):
         print message
+       
+         
         m = re.search("^(\w+):([^_]+)_(\d+)(_(.*))?", message)
         if (m != None):
             action = m.group(1)
@@ -241,6 +247,7 @@ class NotesApp:
                 self.removeTag(id, m.group(5))
             if (action == "ADDNOTE"):
                 self.newNote(None)
+                pass
             if (action == "ADDBASKET"):
                 self.addBasket(m.group(2))
             if (action == "ADDDROPPEDNOTE"):
@@ -249,7 +256,9 @@ class NotesApp:
                 self.selectBasket(m.group(5))
             if (action == "DELETENOTE"):
                 self.deleteNote(id)
-                
+            if (action == "SEARCH_TEXT"):
+                self.searchText(m.group(5))
+                    
             return True
         else:
             return False
@@ -323,7 +332,8 @@ class NotesApp:
         index = NotesWeb().index()
 #        self.view.open(NotesConfig.formUrl( ""))
         self.view.load_string(index, "text/html", "UTF-8", "file://" + NotesConfig.webDir)   
-        self.view.search_text("note", False, True, True)
+        
+        
         self.view.set_highlight_text_matches(True)    
         win.maximize()
         self.window = win

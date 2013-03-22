@@ -175,6 +175,7 @@ a.selectedBasket {
 					var result = prompt('New unique basket name', 'basket');
 					alert("ADDBASKET:" +  result +"_1");
 				}
+				
 				notesMD.dropped = function(event)
 				{
 					 var dt = event.dataTransfer;
@@ -261,6 +262,12 @@ a.selectedBasket {
 					applyDefaultStyles : true
 
 				});
+				
+				$("#searchInput").keyup( function(){
+					alert("SEARCH_TEXT:NEWNOTE_1_" + this.value);
+					setTimeout(function() { $("#searchInput").click();}, 20);
+				});
+				
 			});
 </script>
 </head>
@@ -270,7 +277,7 @@ a.selectedBasket {
 		<div>
 			<button class="headerButton" onclick="javascript:alert('ADDNOTE:NEWNOTE_1'); return false;">Add note</button>
 			<button class="hederButton" onclick="javascript:notesMD.addBasket(); return false;">Add basket</button>
-			<input type="search">
+			<input type="text" id="searchInput"/>
 <!-- 			<button class="headerButton">Search</button> -->
 <!-- 			<button class="hederButton">Tag cloud</button> -->
 		 </div>
