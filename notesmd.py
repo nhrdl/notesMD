@@ -303,11 +303,15 @@ class NotesApp:
         sw = Gtk.ScrolledWindow() 
         sw.add(self.view) 
 
+        splitter = Gtk.Paned(orientation=Gtk.Orientation.VERTICAL)  
+        win.add(splitter)
         
-        vbox = Gtk.VBox()
-        vbox.pack_start(toolbar, False, False, 0)
-        win.add(vbox)
-        vbox.add(sw)
+       # vbox = Gtk.VBox()
+       # vbox.pack_start(toolbar, False, False, 0)
+        sw.set_size_request( -1, 500)
+        splitter.add1(sw)
+        
+       # vbox.add(sw)
 
         settings = self.view.get_settings()
         
@@ -318,7 +322,8 @@ class NotesApp:
             sw1.add(self.inspectorView) 
             inspector = self.view.get_inspector()  
             inspector.connect("inspect-web-view",self.activate_inspector) 
-            vbox.add(sw1)
+            splitter.add2(sw1)
+        #    vbox.add(sw1)
         
           
         settings.set_property("enable-file-access-from-file-uris", True)
