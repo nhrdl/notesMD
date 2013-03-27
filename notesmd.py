@@ -295,8 +295,8 @@ class NotesApp:
         
         self.view = WebKit.WebView()
         sw = Gtk.ScrolledWindow() 
-        sw.add(self.view) 
-
+        sw.add_with_viewport(self.view) 
+        sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         vbox = Gtk.VBox()
         win.add(vbox)
         
