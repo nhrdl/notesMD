@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<script type="text/javascript" src="${base}scripts/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+$(document).ready(
+		function() {
+			notesMD = new Object();
+			notesMD.addBasket = function() {
+				var result = prompt('New unique basket name', 'basket');
+				alert("ADDBASKET:" +  result +"_1");
+			}
+			
+			$("#searchInput").keyup( function(){
+				alert("SEARCH_TEXT:NEWNOTE_1_" + this.value);
+				//setTimeout(function() { $("#searchInput").click();}, 20);
+			});
+		}
+);
+</script>
+</head>
+<body>
+<div class="ui-layout-north">
+		<div>
+			<button class="headerButton" onclick="javascript:alert('ADDNOTE:NEWNOTE_1'); return false;">Add note</button>
+			<button class="hederButton" onclick="javascript:notesMD.addBasket(); return false;">Add basket</button>
+			<input type="text" id="searchInput"/>
+<!-- 			<button class="headerButton">Search</button> -->
+<!-- 			<button class="hederButton">Tag cloud</button> -->
+		 </div>
+	</div>
+</body>
+</html>

@@ -34,16 +34,10 @@ class RuntimeSettings:
 
 class NotesWeb:
     
-    @cherrypy.expose
-    def index1(self):
-        notes = Note.select()
-        for note in notes:
-            note.header = note.getHeader()
-            print note.text
-            
-        tmpl = lookup.get_template("index.html")
-        return tmpl.render(notes= notes)
-    
+    def header(self):
+        template = lookup.get_template("header.html")
+        return template.render(base = "file://" + NotesConfig.webDir + "/")
+   
     @cherrypy.expose
     def index(self, basket=None):
         #+ " collate nocase"
@@ -303,8 +297,16 @@ class NotesApp:
         sw = Gtk.ScrolledWindow() 
         sw.add(self.view) 
 
+        vbox = Gtk.VBox()
+        win.add(vbox)
+        
+        self.headerView = WebKit.WebView()
+        self.headerView.set_size_request(-1, 40)
+        
+        vbox.pack_start(self.headerView, False, False, 0)
+        
         splitter = Gtk.Paned(orientation=Gtk.Orientation.VERTICAL)  
-        win.add(splitter)
+        vbox.add(splitter)
         
        # vbox = Gtk.VBox()
        # vbox.pack_start(toolbar, False, False, 0)
@@ -334,16 +336,18 @@ class NotesApp:
         
         
         win.connect("delete-event", self.exit)
-        index = NotesWeb().index()
+        notesWeb = NotesWeb()
+        index = notesWeb.index()
 #        self.view.open(NotesConfig.formUrl( ""))
         self.view.load_string(index, "text/html", "UTF-8", "file://" + NotesConfig.webDir)   
-        
+        self.headerView.load_string(notesWeb.header(), "text/html", "UTF-8", "file://" + NotesConfig.webDir)
         
         self.view.set_highlight_text_matches(True)    
         win.maximize()
         self.window = win
         self.view.connect("context-menu", self.displayContextMenu)
         self.view.connect("script-alert", self.alert)
+        self.headerView.connect("script-alert", self.alert)
         self.view.connect("navigation-policy-decision-requested", self.navigate)
 
 
