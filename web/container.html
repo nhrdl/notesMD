@@ -255,7 +255,9 @@ a.selectedBasket {
 				$(".noteTags")
 						.tagsInput(
 								{
-									autocomplete_url : notesMD.tags,
+									autocomplete_url : function( request, response ) {
+										response( $.ui.autocomplete.filter( notesMD.tags, request.term ) );
+									},
 									onAddTag : function(o) {
 										alert("ADDTAG:" + $(this).attr('id') + "_" + o);
 									},
