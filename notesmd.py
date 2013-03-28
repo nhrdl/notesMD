@@ -58,7 +58,11 @@ class NotesWeb:
     
     def edit(self, id):
         template = lookup.get_template("editor.html")
-        return template.render(noteText=RuntimeSettings.currentNote.text, base = "file://" + NotesConfig.webDir + "/")
+        noteText=""
+        if (None != RuntimeSettings.currentNote.text):
+            noteText = RuntimeSettings.currentNote.text
+            
+        return template.render(noteText=noteText, base = "file://" + NotesConfig.webDir + "/")
 
 
 class NotesApp:
@@ -104,6 +108,7 @@ class NotesApp:
             text = element.get_value()
             
             note.basket = RuntimeSettings.currentBasket
+            
             note.text = text
             note.modificationDate = datetime.date.today()
             note.save()
