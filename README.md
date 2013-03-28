@@ -16,8 +16,6 @@ This is my first python project. Any python experince before this was basic few 
 
 It was much easier to start a new project that manages the notes the way I want. It gave me opportunity to learn python, understand webkit GTK API.
 
-This tool starts a webserver on port 8080 and points webkit view to it.
-
 Basic usage is simple. You just start main.py. It will create the required database for you in your home directory/.config/notesMD if it does not exist. You can add/edit notes on the screen.  Notes can be categorized in baskets. You can add as many baskes as you want.
 
 Notes syntax is a [markdown][2]. This will allow you nicely format your notes. The tools comes with a editor that shows you a preview of how your notes are going to look.
