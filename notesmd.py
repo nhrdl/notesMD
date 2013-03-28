@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import cherrypy
 import os
 import threading
 from gi.repository import WebKit 
@@ -38,7 +37,6 @@ class NotesWeb:
         template = lookup.get_template("header.html")
         return template.render(base = "file://" + NotesConfig.webDir + "/")
    
-    @cherrypy.expose
     def index(self, basket=None):
         #+ " collate nocase"
         baskets = Basket.select().order_by(fn.Lower(Basket.basketName))
@@ -58,58 +56,24 @@ class NotesWeb:
         return tmpl.render(notes= notes, baskets=baskets, selectedBasket=theBasket, 
                            tagsList=tags, base = "file://" + NotesConfig.webDir + "/")
     
-    @cherrypy.expose
     def edit(self, id):
         template = lookup.get_template("editor.html")
         return template.render(noteText=RuntimeSettings.currentNote.text, base = "file://" + NotesConfig.webDir + "/")
-
-class CherryPyStart(threading.Thread):
-    def run(self):
-        conf = {
-        '/':
-        {'tools.staticdir.dir': os.path.dirname(os.path.abspath(__file__)) + "/web",
-         # 'tools.staticdir.index' : 'index.html',
-         'tools.staticdir.on' : True
-         },
-          
-        }
-        cherrypy.tree.mount(NotesWeb(), "/", config=conf)
-        cherrypy.engine.start()
-        
-         
-#CherryPyStart().start()
-
-    
-exitLoop = False
-
-def idleHookFunction(app):
-    global exitLoop
-   
-    if (exitLoop):
-        cherrypy.engine.stop()
-        Gtk.main_quit()
-    
-    return True
-    
-
-
-    pass
-
-
 
 
 class NotesApp:
     
     
     def exit(self, arg, a1):
-        self.quit(arg)
+        #self.quit(arg)
+        pass
         
     def quit(self, doesNotMatter):
         global exitLoop
         
         self.window.hide()
         exitLoop = True
-        GLib.idle_add(idleHookFunction, app)    
+        #GLib.idle_add(idleHookFunction, app)    
             
     def newNote(self, webview):
         note = Note();
