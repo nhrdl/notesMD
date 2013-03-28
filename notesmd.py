@@ -69,7 +69,7 @@ class NotesApp:
     
     
     def exit(self, arg, a1):
-        #self.quit(arg)
+        Gtk.main_quit()
         pass
         
     def quit(self, doesNotMatter):
@@ -124,7 +124,7 @@ class NotesApp:
         return element
 
     def displayContextMenu(self, view, menu, keyboard, data):
-        print "Context menu", menu.get_children()
+        #print "Context menu", menu.get_children()
         for item in menu.get_children():
             print "Item", item.get_label()
             x = item.get_label()
@@ -193,14 +193,14 @@ class NotesApp:
         self.view.set_highlight_text_matches(True)
                       
     def alert(self, view, frame, message):
-        print message
+        #print message
        
          
         m = re.search("^(\w+):([^_]+)_(\d+)(_(.*))?", message)
         if (m != None):
             action = m.group(1)
             id = m.group(3)
-            print "Action", action, " id", id
+            #print "Action", action, " id", id
             if (action == "EDIT"):
                 note = Note.get(Note.id==id)
                 self.editNote(note)
@@ -298,7 +298,6 @@ class NotesApp:
         
           
         settings.set_property("enable-file-access-from-file-uris", True)
-        print settings.get_property("enable-file-access-from-file-uris")
         self.view.set_settings(settings)
         
         win.show_all() 
