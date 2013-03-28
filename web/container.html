@@ -225,7 +225,7 @@ a.selectedBasket {
 						});
 
 				$(".containerPlus").buildContainers({
-					containment : "#notesContainer",
+					//containment : "#notesContainer",
 					elementsPath : "${base}/elements/",
 					mantainOnWindow : false,
 					onCreate : function(o) {
@@ -297,7 +297,7 @@ a.selectedBasket {
 		</div>
 	</div>
 	<div class="ui-layout-center">
-		<div id="notesContainer">
+		<div id="notesContainer"  style="overflow: visible">
 			% for note in notes:
 			<% tags = note.getTags() %>
 			<div id="container_${note.id}" title="${note.header}"

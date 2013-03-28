@@ -301,7 +301,7 @@ class NotesApp:
         win.add(vbox)
         
         self.headerView = WebKit.WebView()
-        self.headerView.set_size_request(-1, 40)
+        self.headerView.set_size_request(-1, 20)
         
         vbox.pack_start(self.headerView, False, False, 0)
         
