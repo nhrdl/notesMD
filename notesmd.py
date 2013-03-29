@@ -292,6 +292,7 @@ class NotesApp:
             self.inspectorView = WebKit.WebView();
             sw1.add(self.inspectorView) 
             inspector = self.view.get_inspector()  
+            inspector.show()
             inspector.connect("inspect-web-view",self.activate_inspector) 
             splitter.add2(sw1)
         #    vbox.add(sw1)
