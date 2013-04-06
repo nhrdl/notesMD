@@ -1,30 +1,23 @@
 notesMD
 =======
 
-**Dedicated to all those open source warriers who have build best software in the world**
+**Dedicated to all those open source warriors who have build best software in the world**
 
-This is a tool that allows you to manage your notes. Original inspiration for this tool comes from [Basket Note Pads][1]. However it looks like basket note pads is no longer maintained. And it lacked some functionality that I wanted.
+This is a easy to use tool that allows you take notes. The tool is written in python and needs Gtk/Webkit for execution. Please see [requirements][1] for exact requirements
 
-I wanted to 
+![NotesMD Screen shot][2]
 
- 1. Contribute to open source in my small way
- 2. Learn python
- 3. Learn webkit API
- 4. Lean GTK
+This is a very simple tool inspired from [Basket Note Pads][3]. You can:
 
-This is my first python project. Any python experince before this was basic few liner scripts that were written using help from google. HTML UI is not one of my strongest skills and the tool definitely shows it. Please bare with my UI until I manage to convince a friend to polish up the HTML. The tool is basically glued up scripts from various sources. Please look at credits file for more details.
-
-It was much easier to start a new project that manages the notes the way I want. It gave me opportunity to learn python, understand webkit GTK API.
-
-Basic usage is simple. You just start main.py. It will create the required database for you in your home directory/.config/notesMD if it does not exist. You can add/edit notes on the screen.  Notes can be categorized in baskets. You can add as many baskes as you want.
-
-Notes syntax is a [markdown][2]. This will allow you nicely format your notes. The tools comes with a editor that shows you a preview of how your notes are going to look.
-
-You can also drag and drop almost anything that can dropped. The tool will create a new note in currently selected basket. If you drop a file or link, the tool can serve as a boomark place.
-
-Even though webkit is perfectly capable of handling many of the link destination that your notes are showing, the tool ensures that all links are opened using system's tools set for the link type. In short, behavior should be similar to when you doubleclick the file.
+ 1. Manage notes - Create/Edit/Update notes
+ 2. Use powerful syntax of [markdown][4] to write notes.
+ 3. You can drag/drop almost everything to create notes shortcuts for your link
+ 4. It uses your preferred tool to open the application associated with your links.
 
 License Apache license version 2.0 https://www.apache.org/licenses/LICENSE-2.0.html
 
-  [1]: http://basket.kde.org/
-  [2]:https://www.google.com/search?&q=markdown+
+
+  [1]: https://github.com/nhrdl/notesMD/blob/master/data/requirements.md
+  [2]: https://raw.github.com/nhrdl/notesMD/master/data/notesmd.png "Notes MD"
+  [3]: http://basket.kde.org/
+  [4]:https://www.google.com/search?&q=markdown+

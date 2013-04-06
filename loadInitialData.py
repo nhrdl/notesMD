@@ -7,7 +7,7 @@ class DataLoader:
         pass
     
     def createNotes(self):
-        fileList = {"NotesMD": ("README.md", "data/credits.md", "data/comingUp.md")
+        fileList = {"NotesMD": ("README.md", "data/credits.md", "data/about.md")
                     }
         for basket, notes in fileList.iteritems():
             dbBasket = Basket()
